@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=IBus wbjj Setup
+Name[zh_CN]=IBus 五笔加加配置工具
+Name[zh_TW]=IBus 五筆加加配置工具
+Name[zh_HK]=IBus 五筆加加配置工具
+Comment=Set ibus-wbjj Preferences
+Comment[zh_CN]=设置 IBus 五笔加加首选项
+Comment[zh_TW]=設定 IBus 五筆加加個人偏好
+Comment[zh_HK]=設定 IBus 五筆加加個人偏好
+Exec=/usr/lib/ibus/ibus-wbjj-setup
+Icon=/usr/share/ibus-wbjj/icons/setup.svg
+NoDisplay=true
+Type=Application
+StartupNotify=true

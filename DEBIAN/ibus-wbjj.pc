@@ -1,0 +1,21 @@
+prefix=/usr
+exec_prefix=${prefix}
+datarootdir=${prefix}/share
+libdir=${datarootdir}
+datadir=${datarootdir}
+
+extradatadir=${datarootdir}/ibus-wbjj/data
+tabledir=${datarootdir}/ibus-wbjj/tables
+icondir=${datarootdir}/ibus-wbjj/icons
+enginedir=${datarootdir}/ibus-wbjj/engine
+
+
+
+Name: ibus-wbjj
+Description: 五笔加加Plus For IBus
+Version: 0.3.35.20210115
+Requires:
+Libs:
+Cflags:
+
+

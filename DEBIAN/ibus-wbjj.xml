@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- filename: ibus-wbjj.xml -->
+<component>
+    <name>org.freedesktop.IBus.ibus-wbjj</name>
+    <description>五笔加加Plus For IBus</description>
+    <exec>/usr/lib/ibus/ibus-wbjj-engine --ibus</exec>
+    <version>0.3.35.20210115</version>
+    <author>小三 &lt;yanzilisan183@sina.com&gt;</author>
+    <license>LGPL</license>
+    <homepage>https://github.com/yanzilisan183/ibus-wbjj</homepage>
+    <textdomain>ibus-wbjj</textdomain>
+    <observed-paths>
+        <path>/usr/share/ibus-wbjj/tables/</path>
+    </observed-paths>
+    <engines exec='/usr/lib/ibus/ibus-wbjj-engine --xml'/>
+</component>

@@ -1,0 +1,12 @@
+Package: wbjjplus-for-ibus
+Version: 0.3.35.20210115
+Architecture: all
+Maintainer: LI Yunfei <yanzilisan183@sina.com>
+Installed-Size: 5780
+Depends: ibus (>= 1.5.0), python3:any (>= 3.6.5)
+Suggests: ibus-table-array30, ibus-table-cangjie, ibus-table-cangjie-big, ibus-table-cangjie3, ibus-table-cangjie5, ibus-table-cantonese, ibus-table-cantonhk, ibus-table-cns11643, ibus-table-compose, ibus-table-easy, ibus-table-easy-big, ibus-table-emoji, ibus-table-erbi, ibus-table-erbi-qs, ibus-table-ipa-x-sampa, ibus-table-jyutping, ibus-table-latex, ibus-table-quick, ibus-table-quick-classic, ibus-table-quick3, ibus-table-quick5, ibus-table-rustrad, ibus-table-scj6, ibus-table-stroke5, ibus-table-thai, ibus-table-translit, ibus-table-translit-ua, ibus-table-viqr, ibus-table-wu, ibus-table-wubi, ibus-table-yawerty, ibus-table-yong
+Breaks: ibus-table-array30 (<< 1.4.6-Source-2~), ibus-table-cangjie (<< 1.4.6-Source-2~), ibus-table-cangjie-big (<< 1.4.6-Source-2~), ibus-table-cangjie3 (<< 1.4.6-Source-2~), ibus-table-cangjie5 (<< 1.4.6-Source-2~), ibus-table-cantonese (<< 1.4.6-Source-2~), ibus-table-cantonhk (<< 1.4.6-Source-2~), ibus-table-cns11643 (<< 1.3.0.20100528-4~), ibus-table-compose (<< 1.3.0.20100528-4~), ibus-table-easy (<< 1.4.6-Source-2~), ibus-table-easy-big (<< 1.4.6-Source-2~), ibus-table-emoji (<< 1.3.0.20100528-4~), ibus-table-erbi (<< 1.4.6-Source-2~), ibus-table-erbi-qs (<< 1.4.6-Source-2~), ibus-table-ipa-x-sampa (<< 1.3.0.20100528-4~), ibus-table-jyutping (<< 1.4.6-Source-2~), ibus-table-latex (<< 1.3.0.20100528-4~), ibus-table-quick (<< 1.4.6-Source-2~), ibus-table-quick-classic (<< 1.4.6-Source-2~), ibus-table-quick3 (<< 1.4.6-Source-2~), ibus-table-quick5 (<< 1.4.6-Source-2~), ibus-table-rustrad (<< 1.3.0.20100528-4~), ibus-table-scj6 (<< 1.4.6-Source-2~), ibus-table-stroke5 (<< 1.4.6-Source-2~), ibus-table-thai (<< 1.3.0.20100528-4~), ibus-table-translit (<< 1.3.0.20100528-4~), ibus-table-translit-ua (<< 1.3.0.20100528-4~), ibus-table-viqr (<< 1.3.0.20100528-4~), ibus-table-wu (<< 1.4.6-Source-2~), ibus-table-wubi (<< 1.4.6-Source-2~), ibus-table-yawerty (<< 1.3.0.20100528-4~), ibus-table-yong (<< 1.4.6-Source-2~)
+Section: utils
+Priority: optional
+Homepage: https://github.com/yanzilisan183/ibus-wbjj/
+Description: wbjjplus for ibus package

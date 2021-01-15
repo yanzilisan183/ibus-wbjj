@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.freedesktop.ibus.ibus-wbjj.enum-lookup-table-orientation">
+    <value nick="水平" value="0"/>
+    <value nick="竖直" value="1"/>
+    <value nick="系统默认" value="2"/>
+  </enum>
+  <enum id="org.freedesktop.ibus.ibus-wbjj.enum-chinese-mode">
+    <value nick="简体" value="0"/>
+    <value nick="繁体" value="1"/>
+    <value nick="简体优先的大字符集" value="2"/>
+    <value nick="繁体优先的大字符集" value="3"/>
+    <value nick="大字符集" value="4"/>
+  </enum>
+  <enum id="org.freedesktop.ibus.ibus-wbjj.enum-en-switch-key">
+    <value nick="左Ctrl键" value="0"/>
+    <value nick="右Ctrl键" value="1"/>
+    <value nick="Ctrl键" value="2"/>
+    <value nick="左Shift键" value="3"/>
+    <value nick="右Shift键" value="4"/>
+    <value nick="Shift键" value="5"/>
+    <value nick="禁用" value="6"/>
+  </enum>
+
+  <schema id="org.freedesktop.ibus.ibus-wbjj" path="/org/freedesktop/ibus/ibus-wbjj/">
+    <key name="lookup-table-orientation" enum="org.freedesktop.ibus.ibus-wbjj.enum-lookup-table-orientation">
+      <default>'系统默认'</default>
+      <summary>备选列表方向</summary>
+      <description>设置备选列表方向.</description>
+    </key>
+    <key name="lookup-table-pagesize" type="i">
+      <default>6</default>
+      <range min="3" max="10"/>
+      <summary>每页侯选字数量</summary>
+      <description>设置每页侯选字数量,如果不在允许范围(3-10个),则重设为最接近的值.</description>
+    </key>
+    <key name="lookup-table-background-color" type="s">
+      <default>'#E6F0FF'</default>
+      <summary>侯选框背景色</summary>
+      <description>设置侯选框背景色.</description>
+    </key>
+    <key name="lookup-table-border-color" type="s">
+      <default>'#78A0FF'</default>
+      <summary>侯选框边框色</summary>
+      <description>设置侯选框边框色.</description>
+    </key>
+    <key name="lookup-table-font-color" type="s">
+      <default>'#000000'</default>
+      <summary>侯选字颜色</summary>
+      <description>设置侯选字颜色.</description>
+    </key>
+    <key name="lookup-table-highlight-color" type="s">
+      <default>'#F07746'</default>
+      <summary>侯选字高亮色</summary>
+      <description>设置侯选字高亮色.</description>
+    </key>
+    <key name="lookup-table-code-color" type="s">
+      <default>'#1973A2'</default>
+      <summary>提示编码颜色</summary>
+      <description>设置提示编码颜色.</description>
+    </key>
+    <key name="lookup-table-code2-color" type="s">
+      <default>'#990000'</default>
+      <summary>反查编码颜色</summary>
+      <description>设置反查编码颜色.</description>
+    </key>
+    <key name="precommit-font-color" type="s">
+      <default>'#EEDD00'</default>
+      <summary>待提交文字颜色</summary>
+      <description>设置待提交文字颜色.</description>
+    </key>
+    <key name="init-english" type="b">
+      <default>false</default>
+      <summary>初始状态为英文输入模式</summary>
+      <description>设置输入法初始时的英文/五笔状态.</description>
+    </key>
+    <key name="chinese-mode" enum="org.freedesktop.ibus.ibus-wbjj.enum-chinese-mode">
+      <default>'简体'</default>
+      <summary>中文字符集模式</summary>
+      <description>设置中文字符集模式.</description>
+    </key>
+    <key name="full-width-letter" type="b">
+      <default>false</default>
+      <summary>全角字符</summary>
+      <description>设置中文状态全角/半角字符状态.</description>
+    </key>
+    <key name="full-width-punct" type="b">
+      <default>false</default>
+      <summary>中文标点</summary>
+      <description>设置中文状态下标点符号的全角标点/半角标点状态.</description>
+    </key>
+    <key name="one-char" type="b">
+      <default>false</default>
+      <summary>单字模式</summary>
+      <description>设置五笔状态下是否为单字输入模式.</description>
+    </key>
+    <key name="auto-commit" type="b">
+      <default>true</default>
+      <summary>自动提交</summary>
+      <description>设置五笔状态下是否为自动提交模式(即四码无重码自动上屏).</description>
+    </key>
+    <key name="dynamic-adjust" type="b">
+      <default>true</default>
+      <summary>动态调频</summary>
+      <description>设置中文状态下是否动态调整备选内容顺序.</description>
+    </key>
+    <key name="chinese-digital" type="b">
+      <default>false</default>
+      <summary>中文数字</summary>
+      <description>设置中文状态下是否启用中文数字.</description>
+    </key>
+    <key name="pinyin-requery" type="b">
+      <default>true</default>
+      <summary>反查五笔</summary>
+      <description>设置拼音状态下备选框是否反查五笔编码.</description>
+    </key>
+    <key name="pinyin-fuzzy-tone" type="b">
+      <default>false</default>
+      <summary>拼音模糊音</summary>
+      <description>设置拼音模糊音,目前仅支持 zh&lt;-&gt;z, ch&lt;-&gt;c, sh&lt;-&gt;s 模糊.</description>
+    </key>
+    <key name="user-defined-phrases" type="b">
+      <default>false</default>
+      <summary>自定义码表</summary>
+      <description>设置是否启用自定义码表.</description>
+    </key>
+    <key name="en-switch-key" enum="org.freedesktop.ibus.ibus-wbjj.enum-en-switch-key">
+      <default>'左Ctrl键'</default>
+      <summary>中英文切换键</summary>
+      <description>设置中英文切换热键.</description>
+    </key>
+    <key name="shift-selection" type="b">
+      <default>true</default>
+      <summary>Shift第二侯选</summary>
+      <description>设置是否启用Shift选择第二侯选字/词.</description>
+    </key>
+    <key name="semicolon-selection" type="b">
+      <default>false</default>
+      <summary>;/'第三侯选</summary>
+      <description>设置是否启用&lt;;&gt;/&lt;'&gt;选择第三侯选字/词.</description>
+    </key>
+    <key name="numeric-key-selection" type="b">
+      <default>true</default>
+      <summary>数字键选择重码</summary>
+      <description>设置是否启用数字键选择重码,禁用该设置时,备选列表只能显示最多3个侯选项.</description>
+    </key>
+    <key name="setup-hotkey" type="b">
+      <default>true</default>
+      <summary>首选项快捷键</summary>
+      <description>设置是否启用首选项快捷键.</description>
+    </key>
+    <key name="kill-hotkey" type="b">
+      <default>false</default>
+      <summary>IBus重启快捷键</summary>
+      <description>设置是否启用IBus重启快捷键.</description>
+    </key>
+    <key name="period-key-pagedown" type="b">
+      <default>false</default>
+      <summary>,/.翻页</summary>
+      <description>设置是否启用&lt;,&gt;/&lt;.&gt;键翻页.</description>
+    </key>
+    <key name="equal-key-pagedown" type="b">
+      <default>true</default>
+      <summary>-/=翻页</summary>
+      <description>设置是否启用&lt;-&gt;/&lt;=&gt;键翻页.</description>
+    </key>
+    <key name="tab-key-pagedown" type="b">
+      <default>true</default>
+      <summary>Tab翻页</summary>
+      <description>设置是否启用Tab键翻页(对应的上一页按键为Shift+Tab).</description>
+    </key>
+    <key name="arrow-key-pagedown" type="b">
+      <default>true</default>
+      <summary>方向键翻页</summary>
+      <description>设置是否启用方向键翻页.</description>
+    </key>
+  </schema>
+</schemalist>

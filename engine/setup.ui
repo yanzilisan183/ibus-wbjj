@@ -1,0 +1,1683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.14"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkDialog" id="dialog">
+    <property name="width_request">400</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">五笔加加Plus设置</property>
+    <property name="window_position">center-always</property>
+    <property name="icon_name">/usr/share/ibus-wbjj/icons/setup.svg</property>
+    <property name="type_hint">normal</property>
+    <property name="modal">True</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox1">
+        <property name="visible">True</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkNotebook" id="pages">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <!-- property name="tab_vborder">3</property -->
+
+
+            <child>
+              <object class="GtkAlignment" id="pageGeneral">
+                <property name="visible">True</property>
+                <property name="top_padding">12</property>
+                <property name="bottom_padding">12</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="GtkVBox" id="vbox13">
+                    <property name="visible">True</property>
+                    <property name="spacing">18</property>
+                    <child>
+                      <object class="GtkFrame" id="frame4">
+                        <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment7">
+                            <property name="visible">True</property>
+                            <property name="top_padding">6</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkTable" id="table4">
+                                <property name="visible">True</property>
+                                <property name="n_columns">3</property>
+                                <property name="column_spacing">12</property>
+                                <property name="row_spacing">6</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="labelInitEnglish">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">初始状态:</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="init-english">
+                                    <property name="label" translatable="yes">英文</property>
+                                    <property name="tooltip_text">此设置为初始状态,并非当前状态</property>
+                                    <property name="sensitive">False</property>
+                                    <property name="visible">True</property>
+                                    <property name="active">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="init-english_False">
+                                    <property name="label" translatable="yes">中文</property>
+                                    <property name="tooltip_text">此设置为初始状态,并非当前状态</property>
+                                    <property name="sensitive">False</property>
+                                    <property name="visible">True</property>
+                                    <property name="active">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">init-english</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelChineseMode">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">字符集:</property>
+                                    <property name="tooltip_text">中文状态[Ctrl+;]切换</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBoxText" id="chinese-mode">
+                                    <property name="visible">True</property>
+                                    <property name="model">liststoreChineseMode</property>
+                                    <property name="button_sensitivity">on</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">3</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelFullWidthLetter">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">字符宽度:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="full-width-letter">
+                                    <property name="label" translatable="yes">全角</property>
+                                    <property name="tooltip_text">全角字符,仅中文模式有效&#10;中文状态[Shift+空格]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="active">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="full-width-letter_False">
+                                    <property name="label" translatable="yes">半角</property>
+                                    <property name="tooltip_text">半角字符&#10;中文状态[Shift+空格]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">full-width-letter</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelFullWidthPunct">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">标点:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="full-width-punct">
+                                    <property name="label" translatable="yes">全角</property>
+                                    <property name="tooltip_text">中文标点,仅中文模式有效&#10;中文状态[Ctrl+.]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="full-width-punct_False">
+                                    <property name="label" translatable="yes">半角</property>
+                                    <property name="tooltip_text">英文标点&#10;中文状态[Ctrl+.]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">full-width-punct</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelOneChar">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">单字模式:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="one-char">
+                                    <property name="label" translatable="yes">是</property>
+                                    <property name="tooltip_text">只能输入单字&#10;中文状态[Ctrl+,]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="one-char_False">
+                                    <property name="label" translatable="yes">否</property>
+                                    <property name="tooltip_text">检索和提示词组及短句&#10;中文状态[Ctrl+,]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">one-char</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelAutoCommit">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">自动提交:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="auto-commit">
+                                    <property name="label" translatable="yes">是</property>
+                                    <property name="tooltip_text">四码无重码时自动上屏&#10;中文状态[Ctrl+/]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="auto-commit_False">
+                                    <property name="label" translatable="yes">否</property>
+                                    <property name="tooltip_text">空格上屏或选字后上屏&#10;中文状态[Ctrl+/]切换</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">auto-commit</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelChineseDigital">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">中文数字:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">6</property>
+                                    <property name="bottom_attach">7</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="chinese-digital">
+                                    <property name="label" translatable="yes">是</property>
+                                    <property name="tooltip_text">侯选数字的全角,中文形式及大写金额&#10;只能用非数字键选择侯选项</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">6</property>
+                                    <property name="bottom_attach">7</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="chinese-digital_False">
+                                    <property name="label" translatable="yes">否</property>
+                                    <property name="tooltip_text">输入数字直接上屏</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">chinese-digital</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">6</property>
+                                    <property name="bottom_attach">7</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelDynamicAdjust">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">动态调频:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">7</property>
+                                    <property name="bottom_attach">8</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="dynamic-adjust">
+                                    <property name="label" translatable="yes">是</property>
+                                    <property name="tooltip_text">使用频率较高的字词将出现在侯选框靠前的位置</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">7</property>
+                                    <property name="bottom_attach">8</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="dynamic-adjust_False">
+                                    <property name="label" translatable="yes">否</property>
+                                    <property name="tooltip_text">字词在侯选框中的位置固定不变</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">dynamic-adjust</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">7</property>
+                                    <property name="bottom_attach">8</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelPinyinFuzzyTone">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">拼音模糊音:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">8</property>
+                                    <property name="bottom_attach">9</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="pinyin-fuzzy-tone">
+                                    <property name="label" translatable="yes">是</property>
+                                    <property name="tooltip_text">如不区分 zh-z, ch-c, sh-s 等</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">8</property>
+                                    <property name="bottom_attach">9</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="pinyin-fuzzy-tone_False">
+                                    <property name="label" translatable="yes">否</property>
+                                    <property name="tooltip_text">不启用模糊音</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">pinyin-fuzzy-tone</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">8</property>
+                                    <property name="bottom_attach">9</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelPinyinRequery">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">拼音反查五笔:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">9</property>
+                                    <property name="bottom_attach">10</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="pinyin-requery">
+                                    <property name="label" translatable="yes">是</property>
+                                    <property name="tooltip_text">备选提示后续拼音编码和完整五笔编码</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">9</property>
+                                    <property name="bottom_attach">10</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="pinyin-requery_False">
+                                    <property name="label" translatable="yes">否</property>
+                                    <property name="tooltip_text">备选仅提示后续拼音编码</property>
+                                    <property name="visible">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">pinyin-requery</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">9</property>
+                                    <property name="bottom_attach">10</property>
+                                  </packing>
+                                </child>
+
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label7">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;输入法状态&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label19">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">常规</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+
+
+            <child>
+              <object class="GtkAlignment" id="pageAdvanced">
+                <property name="visible">True</property>
+                <property name="top_padding">12</property>
+                <property name="bottom_padding">12</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="GtkVBox" id="vbox4">
+                    <property name="visible">True</property>
+                    <property name="spacing">18</property>
+
+                    <child>
+                      <object class="GtkFrame" id="frame3">
+                        <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment6">
+                            <property name="visible">True</property>
+                            <property name="top_padding">6</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkVBox" id="vbox9">
+                                <property name="visible">True</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkTable" id="tablehkSelection">
+                                    <property name="visible">True</property>
+                                    <property name="n_rows">2</property>
+                                    <property name="n_columns">2</property>
+                                    <property name="column_spacing">6</property>
+                                    <property name="row_spacing">6</property>
+                                    <property name="homogeneous">True</property>
+
+                                    <child>
+                                      <object class="GtkLabel" id="labelEnSwitchKey">
+                                        <property name="label" translatable="yes">中英切换快捷键</property>
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">0</property>
+                                        <property name="bottom_attach">1</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBoxText" id="en-switch-key">
+                                        <property name="visible">True</property>
+                                        <property name="model">liststoreEnSwitchKey</property>
+                                        <property name="button_sensitivity">on</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">0</property>
+                                        <property name="bottom_attach">1</property>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkCheckButton" id="numeric-key-selection">
+                                        <property name="label" translatable="yes">数字键选择重码(推荐)</property>
+                                        <property name="tooltip_text">如果禁用,则侯选词自动为3个,Shift和;'选重码至少选择一个</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">1</property>
+                                        <property name="bottom_attach">2</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="shift-selection">
+                                        <property name="label" translatable="yes">Shift选择重码(推荐)</property>
+                                        <property name="tooltip_text">左Shift键选择第二侯选字词&#10;右Shift键选择第三侯选字词</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">2</property>
+                                        <property name="bottom_attach">3</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="semicolon-selection">
+                                        <property name="label" translatable="yes">;和'选择重码</property>
+                                        <property name="tooltip_text">&lt;;&gt;键选择第二侯选字词&#10;&lt;'&gt;键选择第三侯选字词</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">2</property>
+                                        <property name="bottom_attach">3</property>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkCheckButton" id="setup-hotkey">
+                                        <property name="label" translatable="yes">首选项快捷键</property>
+                                        <property name="tooltip_text">Ctrl+Alt+Shift+F2</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">3</property>
+                                        <property name="bottom_attach">4</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="kill-hotkey">
+                                        <property name="label" translatable="yes">IBus重启快捷键</property>
+                                        <property name="tooltip_text">Ctrl+Alt+Shift+Backspace</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">3</property>
+                                        <property name="bottom_attach">4</property>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkCheckButton" id="equal-key-pagedown">
+                                        <property name="label" translatable="yes">-和=翻页(推荐)</property>
+                                        <property name="tooltip_text">&lt;-&gt;键向前翻页&#10;&lt;=&gt;键向后翻页</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">4</property>
+                                        <property name="bottom_attach">5</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="arrow-key-pagedown">
+                                        <property name="label" translatable="yes">方向键翻页(推荐)</property>
+                                        <property name="tooltip_text">通过侯选列表方向自动确定</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">4</property>
+                                        <property name="bottom_attach">5</property>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="tab-key-pagedown">
+                                        <property name="label" translatable="yes">Tab翻页(推荐)</property>
+                                        <property name="tooltip_text">Shift+Tab键向前翻页&#10;Tab键向后翻页</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">5</property>
+                                        <property name="bottom_attach">6</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="period-key-pagedown">
+                                        <property name="label" translatable="yes">,和.翻页</property>
+                                        <property name="tooltip_text">&lt;,&gt;键向前翻页&#10;&lt;.&gt;键向后翻页</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">5</property>
+                                        <property name="bottom_attach">6</property>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="labelHotKeyPage">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">默认PageUp和PageDown及点击翻页按钮翻页</property>
+                                        <property name="xalign">1</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="top_attach">6</property>
+                                        <property name="bottom_attach">7</property>
+                                        <property name="left_attach">0</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="labelHotKey">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;快捷键&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+
+                    <child>
+                      <object class="GtkFrame" id="frame5">
+                        <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment8">
+                            <property name="visible">True</property>
+                            <property name="top_padding">6</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkVBox" id="vbox8">
+                                <property name="visible">True</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkHBox" id="hbox3">
+                                    <property name="visible">True</property>
+                                    <property name="spacing">12</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label4">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">侯选词排列方向:</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBoxText" id="lookup-table-orientation">
+                                        <property name="visible">True</property>
+                                        <property name="model">liststoreLookupTableOrientation</property>
+                                        <property name="button_sensitivity">on</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHBox" id="hbox4">
+                                    <property name="visible">True</property>
+                                    <property name="spacing">12</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label16">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">侯选词个数:</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkHScale" id="lookup-table-pagesize">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <!-- property name="update_policy">delayed</property -->
+                                        <property name="adjustment">AdjustmentLookupTablePageSize</property>
+                                        <property name="digits">0</property>
+                                        <property name="value_pos">left</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label8">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;侯选框&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="labelAdvanced">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">高级</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+
+
+            <child>
+              <object class="GtkAlignment" id="pageCustom">
+                <property name="visible">True</property>
+                <property name="top_padding">12</property>
+                <property name="bottom_padding">12</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="GtkVBox" id="vbox1">
+                    <property name="visible">True</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkFrame" id="frameCustom">
+                        <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+
+                          <object class="GtkAlignment" id="alignmentCustom">
+                            <property name="visible">True</property>
+                            <property name="top_padding">6</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkTable" id="tableCustom">
+                                <property name="visible">True</property>
+                                <property name="n_rows">9</property>
+                                <property name="n_columns">2</property>
+                                <property name="column_spacing">6</property>
+                                <property name="row_spacing">6</property>
+                                <property name="homogeneous">True</property>
+
+                                <child>
+                                  <object class="GtkLabel" id="labelCustomBgColor">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">侯选框背景色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">0</property>
+                                    <property name="bottom_attach">1</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="lookup-table-background-color">
+                                    <property name="color">#e6e6f0f0ffff</property><!-- #E6F0FF -->
+                                    <property name="tooltip_text">暂不支持此项</property>
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">0</property>
+                                    <property name="bottom_attach">1</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel" id="custom-border-color">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">侯选框边框色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="lookup-table-border-color">
+                                    <property name="color">#7878a0a0ffff</property><!-- #78A0FF -->
+                                    <property name="tooltip_text">暂不支持此项</property>
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="custom-font-color">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">侯选字颜色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="lookup-table-font-color">
+                                    <property name="color">#000000000000</property><!-- #000000 -->
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="custom-font-high-color">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">侯选字高亮色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="lookup-table-highlight-color">
+                                    <property name="color">#f0f077774646</property><!-- #F07746 -->
+                                    <property name="tooltip_text">暂不支持此项</property>
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="custom-code-color">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">提示编码颜色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="lookup-table-code-color">
+                                    <property name="color">#19197373a2a2</property><!-- #1973A2 -->
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="custom-code2-color">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">反查编码颜色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="lookup-table-code2-color">
+                                    <property name="color">#999900000000</property><!-- #990000 -->
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="custom-precommit-font-color">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">待提交文字颜色:</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">6</property>
+                                    <property name="bottom_attach">7</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="right_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="precommit-font-color">
+                                    <property name="color">#EEEEDDDD0000</property><!-- #EEDD00 -->
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">6</property>
+                                    <property name="bottom_attach">7</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="custom-default-color">
+                                    <property name="label" translatable="yes">恢复默认</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">7</property>
+                                    <property name="bottom_attach">8</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="labelCustomFrameTitle">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;侯选框&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label3">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">个性化</property>
+              </object>
+              <packing>
+                <property name="position">3</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+
+            <child>
+              <object class="GtkAlignment" id="pageDictionary">
+                <property name="visible">True</property>
+                <property name="top_padding">12</property>
+                <property name="bottom_padding">12</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="GtkVBox" id="vbox5">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkFrame" id="frame7">
+                        <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignment13">
+                            <property name="visible">True</property>
+                            <property name="top_padding">6</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkVBox" id="vbox12">
+                                <property name="visible">True</property>
+                                <property name="spacing">2</property>
+                                <child>
+                                  <object class="GtkCheckButton" id="user-defined-phrases">
+                                    <property name="label" translatable="yes">自定义码表</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="EditUserDefinedPhrases">
+                                    <property name="label" translatable="yes">编辑自定义码表</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label17">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;自定义码表&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+
+                    <child>
+                      <object class="GtkFrame" id="frameTools">
+                        <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <object class="GtkAlignment" id="alignmentTools">
+                            <property name="visible">True</property>
+                            <property name="top_padding">6</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkVBox" id="vboxTools">
+                                <property name="visible">True</property>
+                                <property name="spacing">9</property>
+
+                                <child>
+                                  <object class="GtkFileChooserButton" id="ImportPhrasesFile">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="ImportPhrasesButton">
+                                    <property name="label" translatable="yes">导入码表</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="ImportCheck">
+                                    <property name="label" translatable="yes">如果码表中已存在,则不重复添加(推荐)</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="ImportToSysdb">
+                                    <property name="label" translatable="yes">导入到系统码表(需要系统码表写权限)</property>
+                                    <property name="tooltip_text">需要.db文件及其所在目录的写权限</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHSeparator" id="ToolsHSeparator">
+                                    <property name="visible">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="position">4</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkProgressBar" id="ToolsProgress">
+                                    <property name="text" translatable="yes">0 %</property>
+                                    <property name="visible">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="show-text">True</property>
+                                    <property name="receives_default">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="Code2Button">
+                                    <property name="label" translatable="yes">更新反查编码</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">6</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="Code2All">
+                                    <property name="label" translatable="yes">完整重建(需要十分钟或更长)</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">7</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="Code2ToSysdb">
+                                    <property name="label" translatable="yes">包括系统码表(需要系统码表写权限)</property>
+                                    <property name="tooltip_text">需要.db文件及其所在目录的写权限</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">8</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="labelTools">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;码表管理&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+
+
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label12">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">词库</property>
+              </object>
+              <packing>
+                <property name="position">4</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+
+
+            <child>
+              <object class="GtkAlignment" id="pageAbout">
+                <property name="visible">True</property>
+                <property name="top_padding">12</property>
+                <property name="bottom_padding">12</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="GtkVBox" id="vbox6">
+                    <property name="visible">True</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox7">
+                        <property name="visible">True</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkImage" id="imageAbout">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="pixel_size">32</property>
+                            <property name="icon_name">gtk-about</property>
+                            <property name="file">/usr/share/ibus-wbjj/icons/wbjjplus_1.svg</property>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="NameVersion">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;五笔加加Plus For IBus %s&lt;/b&gt;&lt;/big&gt;</property>
+                            <property name="use_markup">True</property>
+                            <property name="selectable">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="labelNull1">
+                            <property name="visible">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="labelAboutText1">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">IBus环境下的五笔输入法</property>
+                            <property name="wrap">True</property>
+                            <property name="use_markup">True</property>
+                            <property name="selectable">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="labelAboutText2">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">基于ibus-table,ibus-pinyin和极点五笔86修改</property>
+                            <property name="wrap">True</property>
+                            <property name="use_markup">True</property>
+                            <property name="selectable">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="labelCopyright">
+                            <property name="visible">True</property>
+                            <property name="justify">center</property>
+                            <property name="label" translatable="yes">&lt;small&gt;Copyright (c) 2013-2021 LI Yunfei&amp;lt;yanzilisan183@sina.com&amp;gt;&lt;/small&gt;</property>
+                            <property name="use_markup">True</property>
+                            <property name="wrap">True</property>
+                            <property name="selectable">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">5</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLinkButton" id="linkbutton1">
+                            <property name="label" translatable="yes">http://ibus.googlecode.com</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="relief">none</property>
+                            <property name="uri">http://ibus.googlecode.com</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">6</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLinkButton" id="linkbutton2">
+                            <property name="label" translatable="yes">https://github.com/yanzilisan183/ibus-wbjj</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="relief">none</property>
+                            <property name="uri">https://github.com/yanzilisan183/ibus-wbjj</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">7</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label21">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;small&gt;
+&lt;b&gt;作者:&lt;/b&gt;&#10;LI Yunfei
+
+&lt;b&gt;感谢:&lt;/b&gt;&#10;Wozy, Easycode, 北京六合源软件技术有限公司
+&lt;/small&gt;</property>
+                            <property name="use_markup">True</property>
+                            <property name="justify">center</property>
+                            <property name="selectable">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">8</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label5">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">关于</property>
+              </object>
+              <packing>
+                <property name="position">5</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area1">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="buttonClose">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="is_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-4">buttonClose</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkListStore" id="liststoreDoublePinyin">
+    <columns>
+      <!-- column-name schema -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">MSPY</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ZRM</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ABC</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ZGPY</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">PYJJ</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">XHE</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkAdjustment" id="AdjustmentLookupTablePageSize">
+    <property name="value">1</property>
+    <property name="lower">3</property>
+    <property name="upper">11</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+    <property name="page_size">1</property>
+  </object>
+  <object class="GtkListStore" id="liststoreLookupTableOrientation">
+    <columns>
+      <!-- column-name orientation -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">水平</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">竖直</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">系统默认</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststoreChineseMode">
+    <columns>
+      <!-- column-name 字符集 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">简体</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">繁体</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">简体优先的大字符集</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">繁体优先的大字符集</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">大字符集</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="liststoreEnSwitchKey">
+    <columns>
+      <!-- column-name 字符集 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">左Ctrl键</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">右Ctrl键</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Ctrl键</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">左Shift键</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">右Shift键</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Shift键</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">禁用</col>
+      </row>
+    </data>
+  </object>
+</interface>
