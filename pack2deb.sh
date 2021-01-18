@@ -154,11 +154,11 @@ chgrp -R 0 $tmpdir
 
 # 打包
 echo " * 正在打包deb...."
-if [ -f ./deb/wbjjplus_for_ibus_${var}_${arc}.deb ]; then
-	rm ./deb/wbjjplus_for_ibus_${var}_${arc}.deb > /dev/null
+if [ -f ./deb/wbjjplus_for_ibus_${newvar}_${arc}.deb ]; then
+	rm ./deb/wbjjplus_for_ibus_${newvar}_${arc}.deb > /dev/null
 fi
 echo -n "   "
-dpkg -b $tmpdir/ ./deb/wbjjplus_for_ibus_${var}_${arc}.deb
+dpkg -b $tmpdir/ ./deb/wbjjplus_for_ibus_${newvar}_${arc}.deb
 
 # 清理
 rm -rf $tmpdir

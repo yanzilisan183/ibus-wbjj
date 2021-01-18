@@ -830,7 +830,7 @@ class Editor(object):
         else:
             wbcode = self._word_history[n][1][0] + self._word_history[n+1][1][0] + self._word_history[n+2][1][0] + self._word_history[-1][1][0]
         cate = wbjj.get_category(word)
-        print("DEBUG: in create_update() and self._word_history[" + str(n) + ":] = " + str(self._word_history[n:]))
+        #print("DEBUG: in create_update() and self._word_history[" + str(n) + ":] = " + str(self._word_history[n:]))
         attrs = IBus.AttrList()
         self._wb_char_list = ['']
         # 五笔编码追加到_candidates
@@ -852,11 +852,11 @@ class Editor(object):
 
     def create_remove(self, index):
         '''造词模式下从历史字表中删除字'''
-        l = len(filter(lambda x: x[0] != '', self._word_history))
+        l = len(list(filter(lambda x: x[0] != '', self._word_history)))
         if l <= 2:
             return False
         self._word_history.pop(index)
-        self._word_history = [[u'','','']] + self._word_history[:]
+        self._word_history.insert(0, [u'','',''])
 
     def create_add(self, pos):
         '''造词模式保存新词到数据库'''
@@ -880,8 +880,7 @@ class Editor(object):
 
     def commit_to_preedit(self):
         '''将从lookup中选中的词提交到preedit'''
-        if 1==1:
-        #try:
+        try:
             _c = self.get_cursor_pos()
             if self._candidates:
                 self._precommit_list.insert(self._cursor[0], self._candidates[_c][wbjj.candidx_word])
@@ -914,12 +913,12 @@ class Editor(object):
                 self._word_history = self._word_history[-1 * wbjj.historywords:]
             self.over_input()
             self.update_candidates()
-        #except:
-        #    if wbjj.options.debug:
-        #        raise
-        #        # import traceback
-        #        # traceback.print_exc()
-        #    pass
+        except:
+            if wbjj.options.debug:
+                raise
+                # import traceback
+                # traceback.print_exc()
+            pass
     
     def auto_commit_to_preedit(self):
         '''Add select phrase in lookup table to preedit string'''
@@ -1172,28 +1171,27 @@ class TabEngine(IBus.Engine):
         self._letter_property = IBus.Property(key=u'letter')
         self._punct_property = IBus.Property(key=u'punct')
         self._more_property = IBus.Property(key=u'more', type=3, label=u'', icon=wbjj.iconpath+'setup.svg')
-        if 1==1:
-            # 设置子菜单
-            self.subproperties = IBus.PropList()
-            self._onechar_subproperty = IBus.Property(key=u'onechar', type=IBus.PropType.TOGGLE, label=u'单字模式　Ctrl+,')
-            self._autocommit_subproperty = IBus.Property(key=u'acommit', type=IBus.PropType.TOGGLE, label=u'自动提交　Ctrl+/')
-            self._cndigital_subproperty = IBus.Property(key=u'cndigital', type=IBus.PropType.TOGGLE, label=u'中文数字　Ctrl+\'')
-            self._line0_subproperty = IBus.Property(key=u'line0', type=IBus.PropType.SEPARATOR)
-            self._setup_subproperty = IBus.Property(key=u'setup', type=IBus.PropType.NORMAL, label=u'首选项…　Ctrl+Alt+Shift+F2', icon=wbjj.iconpath+'setup.svg')
-            self._line1_subproperty = IBus.Property(key=u'line1', type=IBus.PropType.SEPARATOR)
-            self._help_subproperty  = IBus.Property(key=u'help',  type=IBus.PropType.NORMAL, label=u'帮助…　　Ctrl+Alt+Shift+F1', icon=wbjj.iconpath+'help.svg')
-            for prop in (
-                    self._onechar_subproperty, 
-                    self._autocommit_subproperty, 
-                    self._cndigital_subproperty,
-                    self._line0_subproperty, 
-                    self._setup_subproperty, 
-                    self._line1_subproperty, 
-                    self._help_subproperty
-                ):
-                self.subproperties.append(prop)
-            self._more_property.set_sub_props(self.subproperties)
-            self._more_property.set_label(_(u'更多选项'))
+        # 设置子菜单
+        self.subproperties = IBus.PropList()
+        self._onechar_subproperty = IBus.Property(key=u'onechar', type=IBus.PropType.TOGGLE, label=u'单字模式　Ctrl+,')
+        self._autocommit_subproperty = IBus.Property(key=u'acommit', type=IBus.PropType.TOGGLE, label=u'自动提交　Ctrl+/')
+        self._cndigital_subproperty = IBus.Property(key=u'cndigital', type=IBus.PropType.TOGGLE, label=u'中文数字　Ctrl+\'')
+        self._line0_subproperty = IBus.Property(key=u'line0', type=IBus.PropType.SEPARATOR)
+        self._setup_subproperty = IBus.Property(key=u'setup', type=IBus.PropType.NORMAL, label=u'首选项…　Ctrl+Alt+Shift+F2', icon=wbjj.iconpath+'setup.svg')
+        self._line1_subproperty = IBus.Property(key=u'line1', type=IBus.PropType.SEPARATOR)
+        self._help_subproperty  = IBus.Property(key=u'help',  type=IBus.PropType.NORMAL, label=u'帮助…　　Ctrl+Alt+Shift+F1', icon=wbjj.iconpath+'help.svg')
+        for prop in (
+                self._onechar_subproperty, 
+                self._autocommit_subproperty, 
+                self._cndigital_subproperty,
+                self._line0_subproperty, 
+                self._setup_subproperty, 
+                self._line1_subproperty, 
+                self._help_subproperty
+            ):
+            self.subproperties.append(prop)
+        self._more_property.set_sub_props(self.subproperties)
+        self._more_property.set_label(_(u'更多选项'))
         for prop in (
                 self._status_property,
                 self._cmode_property,
@@ -1207,7 +1205,6 @@ class TabEngine(IBus.Engine):
     
     def _refresh_properties(self):
         '''属性更新方法 Method used to update properties'''
-        # taken and modified from PinYin.py :)
         if self._mode == 1:
             if self._editor._py_mode:
                 self._status_property.set_icon(u'%s%s' % (wbjj.iconpath, 'ibus-pinyin.svg'))
@@ -1365,7 +1362,8 @@ class TabEngine(IBus.Engine):
             # _preedit_strings字符加下划线,以区分待提交
             attrs.append(IBus.attr_underline_new(IBus.AttrUnderline.SINGLE, 0, len(_preedit_strings)))
             #super().update_preedit_text(IBus.Text(_preedit_strings, attrs), self._editor.get_caret(), True)
-            super().update_preedit_text(IBus.Text(_preedit_strings, attrs), len(_preedit_strings), True)
+            _cursor_pos = 1 if self._editor._create_mode else len(_preedit_strings)     # 造词模式光标始终停在第一个字后
+            super().update_preedit_text(IBus.Text(_preedit_strings, attrs), _cursor_pos, True)
     
     def _update_aux(self):
         '''更新编辑框中的字符(当前编辑的编码)'''
@@ -1440,7 +1438,6 @@ class TabEngine(IBus.Engine):
             else:
                 return _char
         else:
-            print("DEBUG: in _convert_to_full_width() and c = " + c + " and unichar_half_to_full() = " + unichar_half_to_full(c))
             return tabdict.unichar_half_to_full(c)
     
     def _match_hotkey(self, key, code, mask):
@@ -1456,14 +1453,15 @@ class TabEngine(IBus.Engine):
         key = KeyEvent(keyval, state & IBus.ModifierType.RELEASE_MASK == 0, state)
         # ignore NumLock mask
         key.mask &= ~IBus.ModifierType.MOD2_MASK
+        #try:
         if 1==1:
-#        try:
             result = self._process_key_event(key)
-#        except:
-#            if wbjj.options.debug:
-#                raise
-#                # import traceback
-#                #traceback.print_exc()
+        #except:
+        #    result = false
+        #    if wbjj.options.debug:
+        #        raise
+        #        #import traceback
+        #        #traceback.print_exc()
         self._prev_key = key
         return result
 
@@ -1782,15 +1780,17 @@ class TabEngine(IBus.Engine):
                     return True
                 # 退格删字
                 elif key.code == IBus.BackSpace:
-                    l = len(self._editor.get_aux_strings())
-                    self._editor.create_remove(-1 * l)
+                    f = len(self._editor._word_history)         # 历史表长
+                    l = len(self._editor.get_preedit_strings()) # 当前词长
+                    self._editor.create_remove(f - l)           # 删光标位置前(当前词首字)
                     self._editor.create_update(l)
                     self._create_update_ui()
                     return True
                 # Del删字
                 elif key.code == IBus.Delete:
-                    l = len(self._editor.get_aux_strings())
-                    self._editor.create_remove(-1 * l + 1)
+                    f = len(self._editor._word_history)         # 历史表长
+                    l = len(self._editor.get_preedit_strings()) # 当前词长
+                    self._editor.create_remove(f - l + 1)       # 删光标位置后(当前词第二字)
                     self._editor.create_update(l)
                     self._create_update_ui()
                     return True
