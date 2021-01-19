@@ -241,7 +241,6 @@ class TabSqliteDb:
 
     def get_wubi_code(self, word):
         '''反查单字五笔编码(多码时仅返回最简码)'''
-        #word = word.decode('utf8')
         sqlstr = '''SELECT DISTINCT clen, code FROM (
             SELECT * FROM main.wubi3 WHERE wlen = 1 AND word = ?
             UNION ALL SELECT * FROM user_db.wubi3 WHERE wlen = 1 AND word = ?
@@ -256,7 +255,6 @@ class TabSqliteDb:
 
     def get_pinyin_code(self, word):
         '''反查单字拼音(已转音调)(多码全部返回)'''
-        #word = word.decode('utf8')
         sqlstr = '''SELECT DISTINCT clen, code FROM (
             SELECT * FROM main.pinyin3 WHERE wlen = 1 AND word = ?
             UNION ALL SELECT * FROM user_db.pinyin3 WHERE wlen = 1 AND word = ?
@@ -285,7 +283,6 @@ class TabSqliteDb:
         sqlstr = '''SELECT * FROM (SELECT * FROM user_db.%(table)s WHERE word = ?
                          UNION ALL SELECT * FROM memu_db.%(table)s WHERE word = ?
                     ) ORDER BY clen DESC''' % {'table':table}
-        print("DEBUG: in set_new_word() and sqlstr = " + sqlstr.replace('\n', '').replace('\r', '').replace('  ', ' '))
         RecordTupleList = self.db.execute(sqlstr, (word,word)).fetchall()
         for x in RecordTupleList:
             if x[wbjj.idx_clen] == clen and x[wbjj.idx_cate] == category:
@@ -365,14 +362,12 @@ class TabSqliteDb:
                                  UNION ALL SELECT * FROM memu_db.wubi3 WHERE word = ? AND code = ?
                             ) ORDER BY user_freq DESC, freq DESC, id ASC;'''
                 RecordTupleList = self.db.execute(sqlstr, ((word,code_str)*3)).fetchall()
-                # print("DEBUG: check_phrase() A, RecordTupleList = " + str(RecordTupleList))
                 if not bool(RecordTupleList):
                     sqlstr = '''SELECT * FROM (SELECT * FROM main.wubi3 WHERE word = ?
                                      UNION ALL SELECT * FROM user_db.wubi3 WHERE word = ?
                                      UNION ALL SELECT * FROM memu_db.wubi3 WHERE word = ?
                                 ) ORDER BY user_freq DESC, freq DESC, id ASC;'''
                     RecordTupleList = self.db.execute(sqlstr, (word,word,word)).fetchall()
-                    # print("DEBUG: check_phrase() B, RecordTupleList = " + str(RecordTupleList))
             if len(RecordTupleList) <= 0:
                 return
             maindbSet = set()
@@ -461,7 +456,7 @@ class TabSqliteDb:
     
     def remove_phrase(self, inCandidateTuple):
         '''删词(从用户码表和内存表)'''
-        sqlParameterList = [len(inCandidateTuple[wbjj.candidx_code]), inCandidateTuple[wbjj.candidx_code], inCandidateTuple[wbjj.candidx_wlen], inCandidateTuple[wbjj.candidx_word], inCandidateTuple[wbjj.candidx_cate]]
+        sqlParameterList = [len(inCandidateTuple[wbjj.candidx_code]), inCandidateTuple[wbjj.candidx_code], len(inCandidateTuple[wbjj.candidx_word]), inCandidateTuple[wbjj.candidx_word], inCandidateTuple[wbjj.candidx_cate]]
         for database in ['user_db','memu_db']:
             sqlstr = 'DELETE FROM %(database)s.wubi3 WHERE clen = ? AND code = ? AND wlen = ? AND word = ? AND category = ?;' % {'database':database}
             self.db.execute(sqlstr, sqlParameterList)

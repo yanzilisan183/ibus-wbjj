@@ -13,7 +13,7 @@ enginedir=${datarootdir}/ibus-wbjj/engine
 
 Name: ibus-wbjj
 Description: 五笔加加Plus For IBus
-Version: 0.3.36.20210118
+Version: 0.3.37.20210119
 Requires:
 Libs:
 Cflags:

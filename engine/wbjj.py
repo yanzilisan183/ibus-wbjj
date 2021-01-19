@@ -24,8 +24,8 @@ from gi.repository import IBus
 
 
 sysname       = "ibus-wbjj"
-version       = "0.3.36"
-date          = "20210118"
+version       = "0.3.37"
+date          = "20210119"
 requestpath   = "org.freedesktop.IBus.ibus-wbjj"
 section       = 'engine/wbjj'
 

@@ -72,7 +72,6 @@ class IMEConfig():
             if colorstr[0:4] == 'rgb(' and colorstr[-1:] == ')' and len(colorstr) - len(colorstr.replace(',','')) == 2:
                 # rgb(r,g,b) 格式计算
                 rgb = colorstr[4:-1].split(',')
-                #print("DEBUG: in refresh.colorstr2int() and colorstr = " + colorstr + " and rgb = " + str(rgb))
                 r = int(rgb[0])
                 g = int(rgb[1])
                 b = int(rgb[2])
@@ -81,12 +80,10 @@ class IMEConfig():
                 if colorstr[0:7] == colorstr[:]:            # 本身就是 #AABBCC 格式,直接将十六进制转换为十进制返回
                    return int(colorstr[1:], 16)
                 # #AAAABBBBCCCC 格式计算
-                #print("DEBUG: in refresh.colorstr2int() and colorstr = " + colorstr + " and colorstr[1:5] = " + colorstr[1:5] + " and colorstr[5:9] = " + colorstr[5:9] + " and colorstr[9:13] = " + colorstr[9:13])
                 r = int(int(colorstr[1:5], 16) / 256)
                 g = int(int(colorstr[5:9], 16) / 256)
                 b = int(int(colorstr[9:13], 16) / 256)
             return (r<<16) + (g<<8) + b
-
         self._active = True     # 活动状态(不响应配置变更)
         # LookupTable属性(_lt)
         self._ltOrientation = self.__gsettings.get_enum("lookup-table-orientation")          # 备选列表方向(0:水平,1:竖直,2:系统默认)
@@ -100,13 +97,10 @@ class IMEConfig():
         self._ltHighColor = colorstr2int(self.__gsettings.get_string("lookup-table-highlight-color")) # 侯选字高亮色,   "#F07746"
         self._ltCodeColor = colorstr2int(self.__gsettings.get_string("lookup-table-code-color"))      # 提示编码颜色,   "#1973A2"
         self._ltCode2Color = colorstr2int(self.__gsettings.get_string("lookup-table-code2-color"))    # 反查编码颜色,   "#990000"
-        
         # Preedit, Precommit, Aux属性(_pe, _pc, _au)
         self._pcFontColor = colorstr2int(self.__gsettings.get_string("precommit-font-color"))         # 待提交文字颜色, "#EEDD00"
-
         # 输入法属性(_im)
         self._imMaxLength = 64                                                               # 最大编码长度
-
         # 状态(_st)
         self._stInitEnglish = self.__gsettings.get_boolean("init-english")                   # 初始为英文模式, False
         self._stChineseMode = self.__gsettings.get_enum("chinese-mode")                      # 中文字符集模式(0:简体, 1:繁体, 2:简体优先的大字符集, 3:繁体优先的大字符集, 4:大字符集)
@@ -121,7 +115,6 @@ class IMEConfig():
         self._stUserDefinedPhrases = self.__gsettings.get_boolean("user-defined-phrases")    # 用户自定义码表, False
         if self._stUserDefinedPhrases:
             self.__db.load_user_words(wbjj.user + 'usrword.txt')                             # 导入用户码表
-
         # 快捷键设置(_hk)
         self._hkEnSwitchKeyStr = self.__gsettings.get_string("en-switch-key")                # 中英文切换键(文本), "左Ctrl键"
         self._hkEnSwitchKey = wbjj.hkEnSwitchKeyEnumRev[self._hkEnSwitchKeyStr]              # 中英文切换键(键值列表)
@@ -154,7 +147,6 @@ class IMEConfig():
             if self._ltOrientation in range(0, 1):
                 self._ibus_lookup_table.set_orientation(self._ltOrientation)
             self._ibus_lookup_table.set_page_size(self._ltPageSize)
-
         if self._hkArrowPgDn:
             if self._ltOrientation in range(0, 1):
                 runtime_orientation = self._ltOrientation
@@ -162,7 +154,6 @@ class IMEConfig():
                 runtime_orientation = self._ibus_lookup_table.get_orientation()              # 取IBus.LookupTable当前排列方式值
             else:
                 runtime_orientation = 0
-            
             if runtime_orientation == 0:
                 self._hkPgDnList.append(IBus.Down)
                 self._hkPgDnList.append(IBus.KP_Down)
@@ -173,7 +164,6 @@ class IMEConfig():
                 self._hkPgDnList.append(IBus.KP_Right)
                 self._hkPgUpList.append(IBus.Left)
                 self._hkPgUpList.append(IBus.KP_Left)
-
         self._active = False                                                                 # 非活动状态(响应配置变更)
 
     def __config_changed_ed(self, settings, name):
@@ -181,10 +171,10 @@ class IMEConfig():
             return
         self.refresh()
 
-    def __config_ibus_changed_ed(self, settings, name):
-        if name != 'lookup-table-orientation' or self._active:
-            return
-        self.refresh()
+#    def __config_ibus_changed_ed(self, settings, name):
+#        if name != 'lookup-table-orientation' or self._active:
+#            return
+#        self.refresh()
 
     def _set_stOneChar(self, value):
         self._stOneChar = bool(value)
@@ -213,16 +203,6 @@ class IMEConfig():
         self._stChineseDigital = bool(value)
         self.__gsettings.set_boolean("chinese-digital", self._stChineseDigital)
 
-    #def _set_ltPageSize(self, value):
-    #    if int(value) in range(3, 11):
-    #        self._ltPageSize = int(value)
-    #        self.__gsettings.set_int("lookup-table-pagesize", self._ltPageSize)
-
-    #def _set_ltOrientation(self, value):
-    #    if int(value) in range(0, 2):
-    #        self._ltOrientation = int(value)
-    #        self.__gsettings.set_enum("lookup-table-orientation", self._ltOrientation)
-
 
 class Editor(object):
     '''保留用户输入字符和预编辑字符串,其中 self._ibus_lookup_table 为IBus原生输入框侯选字容器对象'''
@@ -234,9 +214,6 @@ class Editor(object):
             self._ibus_lookup_table.set_orientation(self._cfg._ltOrientation)
         self._ibus_lookup_table.set_page_size(self._cfg._ltPageSize)
         self._cfg._ibus_lookup_table = self._ibus_lookup_table      # 供IMEConfig对象内部反向调用
-
-        # below vals will be reset in self.clear()
-        # we hold this: [str,str,...]
 
         self._chars = [[],[],[]]      # 保存五笔模式下的用户输入 hold user input in table mode (有效字符集,无效字符集,prevalid)
         self._wb_char_list = []       # 保存五笔模式下的输入验证,结构为['a','b','c','d','e','f',...] hold total input for table mode for input check
@@ -264,7 +241,7 @@ class Editor(object):
         return True
 
     def clear(self):
-        '''Remove data holded'''
+        '''删除保留的数据'''
         if self._create_mode:
             self._create_mode = False
         self.over_input()
@@ -288,8 +265,8 @@ class Editor(object):
         self._un_char_list = []
     
     def add_input(self, char):
-        print("DEBUG: in add_input() ==========================================================")
         '''将按键字母追加到输入栏 add input character'''
+        print("DEBUG: in add_input() ==========================================================")
         if len(self._wb_char_list) == self._cfg._imMaxLength:
             return True
         if self._cursor[1]:
@@ -309,7 +286,6 @@ class Editor(object):
             self._chars[0].append(char)
         else:
             self._chars[1].append(char)
-        
         self._wb_char_list.append(char)
         res = self.update_candidates()
         return res
@@ -317,7 +293,6 @@ class Editor(object):
     def pop_input(self):
         '''remove and display last input char held'''
         _c =''
-        #print("DEBUG: in pop_input() and [1st]self._chars = " + str(self._chars) + " and self._un_char_list = " + str(self._un_char_list))
         if self._chars[1]:
             _c = self._chars[1].pop()
         elif self._chars[0]:
@@ -336,7 +311,6 @@ class Editor(object):
         self.update_candidates()
         return _c
 
-    
     def split_phrase(self):
         '''Splite current phrase into two phrase'''
         _head = u''
@@ -410,25 +384,25 @@ class Editor(object):
                 string = self._precommit_list[self._cursor[0]]
                 self._precommit_list[self._cursor[0]] = string[:self._cursor[1]] + string[self._cursor[1] + 1:]
 
-    def add_caret(self, addstr):
-        '''add length to caret position'''
-        self._caret += len(addstr)
+#    def add_caret(self, addstr):
+#        '''add length to caret position'''
+#        self._caret += len(addstr)
 
-    def get_caret(self):
-        '''Get caret position in preedit strings'''
-        self._caret = 0
-        if self._cursor[0] and self._precommit_list:
-            map(self.add_caret,self._precommit_list[:self._cursor[0]])
-        self._caret += self._cursor[1]
-        if self._candidates:
-            _candidate =self._candidates[int(self._ibus_lookup_table.get_cursor_pos())][wbjj.candidx_word] 
-        else:
-            _candidate = u''.join(map(str,self.get_input_chars()))
-        self._caret += len(_candidate) 
-        return self._caret
+#    def get_caret(self):
+#        '''Get caret position in preedit strings'''
+#        self._caret = 0
+#        if self._cursor[0] and self._precommit_list:
+#            map(self.add_caret,self._precommit_list[:self._cursor[0]])
+#        self._caret += self._cursor[1]
+#        if self._candidates:
+#            _candidate =self._candidates[int(self._ibus_lookup_table.get_cursor_pos())][wbjj.candidx_word] 
+#        else:
+#            _candidate = u''.join(map(str,self.get_input_chars()))
+#        self._caret += len(_candidate) 
+#        return self._caret
     
     def append_candidate_to_lookup_table(self, candidate):
-        '''追加侯选字词到IBus.LookupTable中'''
+        '''追加侯选字词到IBus.LookupTable中(常规)'''
         if not candidate or not candidate[wbjj.candidx_code] or not candidate[wbjj.candidx_word]:
             return
         _code2 = ''
@@ -466,9 +440,6 @@ class Editor(object):
                 _code = _code[_alen:]
         elif len(_code) <= _alen and _aux_string.find(_code) == 0:
             _code = ''
-        #print("DEBUG: append_candidate_to_lookup_table() and _word = " + _word + " and _code = " + _code + " and _code2 = " + _code2 + " and _aux_string = " + _aux_string)
-        #_code = _code.replace('!','↑1').replace('@','↑2').replace('#','↑3').replace('$','↑4').replace('%','↑5')
-        #_code = _code.replace('1↑','1').replace('2↑','2').replace('3↑','3').replace('4↑','4').replace('5↑','5')
         # 编码上色
         attrs.append(IBus.attr_foreground_new(_color, _wlen, _wlen + len(_code)))
         # 反查编码上色
@@ -481,8 +452,8 @@ class Editor(object):
         self._ibus_lookup_table.show_cursor(False)
         self._ibus_lookup_table.set_cursor_visible(True)    # 设置焦点
 
-    def append_candidate_to_lookup_table2(self, candidate):
-        '''追加侯选字词到IBus.LookupTable中(仅当z键显示最近一个字的历史时调用)'''
+    def append_candidate_to_lookup_table_special(self, candidate):
+        '''追加侯选字词到IBus.LookupTable中(非常规)'''
         if not candidate or not candidate[wbjj.candidx_word]:
             return
         attrs = IBus.AttrList()
@@ -576,7 +547,7 @@ class Editor(object):
             # 在这里,我们需要考虑三种情况,中文数字,五笔和拼音
             st = ''.join(self._chars[0])
             regDate = r'^((((1[6-9]|[2-9]\d)\d{2})[\.\-\/](0?[13578]|1[02])[\.\-\/](0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})[\.\-\/](0?[13456789]|1[012])[\.\-\/](0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})[\.\-\/]0?2[\.\-\/](0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))[\.\-\/]0?2[\.\-\/]29))$'
-            regNum = r'^\-?[0-9]*(\.?[0-9]*)$'
+            regNum = r'^\-?[0-9]+(\.[0-9]+)?$'
             regPart = r'^[0-9\.\-\/]*$'
             # 中文日期优先
             if self._cfg._stChineseDigital and re.match(regDate, st):
@@ -615,10 +586,10 @@ class Editor(object):
                 self._candidates.append(("", ccdate, 3, "", 0, 0))
                 self._candidates.append(("", fdate, 3, "", 0, 0))
                 for _CandidateTuple in self._candidates:
-                    self.append_candidate_to_lookup_table2(_CandidateTuple)
+                    self.append_candidate_to_lookup_table_special(_CandidateTuple)
                 return True
             # 中文数字次之
-            elif self._cfg._stChineseDigital and re.match(regNum, st):
+            elif self._cfg._stChineseDigital and re.match(regNum, st) and st != '.':
                 p1 = u'零壹贰叁肆伍陆柒捌玖万仟佰拾元角分厘毫整'
                 p2 = u'零一二三四五六七八九万千百十点～～～～～'
                 n0 = u'0123456789.'
@@ -672,12 +643,12 @@ class Editor(object):
                 self._candidates.append(("", cnumber, 3, "", 0, 0))
                 self._candidates.append(("", umoney, 3, "", 0, 0))
                 for _CandidateTuple in self._candidates:
-                    self.append_candidate_to_lookup_table2(_CandidateTuple)
+                    self.append_candidate_to_lookup_table_special(_CandidateTuple)
                 return True
             # 中文数字/日期输入过程
             elif self._cfg._stChineseDigital and re.match(regPart, st):
                 self._candidates = []
-                self.append_candidate_to_lookup_table2(None)
+                self.append_candidate_to_lookup_table_special(None)
                 return True
             # 五笔其次
             elif not self._py_mode:
@@ -714,8 +685,8 @@ class Editor(object):
                             _code2ns = _code2ns[0:4] + ['…']        # 多音情况只输出前4个并加省略号
                         if _code2ns:
                             _CandidateList[wbjj.candidx_code] = _CandidateList[wbjj.candidx_code] + u"  拼音:" + u", ".join(_code2ns)
-                        # 调用过程2,追加到LookupTable
-                        self.append_candidate_to_lookup_table2(tuple(_CandidateList))
+                        # 追加到LookupTable
+                        self.append_candidate_to_lookup_table_special(tuple(_CandidateList))
                     #else:
                         #self._ibus_lookup_table.clean()
                         #self._ibus_lookup_table.show_cursor(False)
@@ -734,7 +705,6 @@ class Editor(object):
             self._candidates = []
         # 按码长和字符集设置排序
         self._candidates = self.sort_by_clen_category(self._candidates)
-        # print("DEBUG: in update_candidates() and _candidates = " + str(self._candidates))
         # 检查全角状态,在第三侯选位(如果有)插入全角字符
         if self._cfg._stFullLetter:
             _word = u"".join(list(map(tabdict.unichar_half_to_full, self._chars[0])))
@@ -749,11 +719,7 @@ class Editor(object):
         #print("DEBUG: in update_candidates() and [mid]self._chars = " + str(self._chars))
         if self._chars[0]:
             if not self._chars[1]:
-                # we don't have invalid input chars here we need to check the last input is a punctuation or not, if is a punct,
-                # then we use old maner to summit the former valid candidate
-                # if ascii_ispunct(self._chars[0][-1].encode('ascii')) or len(self._chars[0][:-1]) in self.db.pkeylens or self.is_onlyone_candidate():
                 if ascii_ispunct(chr(ord(self._chars[0][-1].encode('ascii')))) or self.is_onlyone_candidate():
-                    # because we use [!@#$%] to denote [12345] in py_mode, so we need to distinguish them old manner:
                     if self._py_mode:
                         if self._chars[0][-1] in "!@#$%":
                             self._chars[0].pop() 
@@ -821,7 +787,6 @@ class Editor(object):
                         _pystr = _pystr[0:16]   # 拼音编码超长截断
                         if _pystr not in pycode:
                             pycode.append(_pystr)
-            #print("DEBUG: in create_update() and _WordTuple = " + str(_WordTuple))
         # 按五笔词组编码规则合成词的编码,两字AABB,三字ABCC,四字及以上ABCN
         if wordlen == 2:
             wbcode = self._word_history[n][1][0:2] + self._word_history[-1][1][0:2]
@@ -830,7 +795,6 @@ class Editor(object):
         else:
             wbcode = self._word_history[n][1][0] + self._word_history[n+1][1][0] + self._word_history[n+2][1][0] + self._word_history[-1][1][0]
         cate = wbjj.get_category(word)
-        #print("DEBUG: in create_update() and self._word_history[" + str(n) + ":] = " + str(self._word_history[n:]))
         attrs = IBus.AttrList()
         self._wb_char_list = ['']
         # 五笔编码追加到_candidates
@@ -870,7 +834,6 @@ class Editor(object):
         code2 = self._candidates[pos][wbjj.candidx_cod2]
         if len(code) <= 0:
             return False
-        print("DEBUG: in create_add() and pos = " + str(pos))
         if pos == 0:
             table = 'wubi3'
         else:
@@ -973,7 +936,7 @@ class Editor(object):
     # 普通编辑事件相关函数 ====================================================================================
 
     def space(self):
-        '''返回值: (KeyProcessResult,whethercommit,commitstring)'''
+        '''处理 space 按键事件, 返回值: (KeyProcessResult,whethercommit,commitstring)'''
         print("DEBUG: in space() and _chars[1] = " + str(self._chars[1]) + ", _wb_char_list = " + str(self._wb_char_list))
         if self._chars[1]:
             # 含无效输入,不提交
@@ -981,7 +944,7 @@ class Editor(object):
         elif self._wb_char_list:
             # 五笔/拼音输入
             istr = self.get_all_input_strings()
-            print("DEBUG: in space() and istr = " + str(istr))
+            #print("DEBUG: in space() and istr = " + str(istr))
             self.commit_to_preedit()
             pstr = self.get_preedit_strings()
             print("DEBUG: in space() and pstr = " + str(pstr))
@@ -991,8 +954,7 @@ class Editor(object):
             return (False, u'', u'')
     
     def backspace(self):
-        '''Process backspace Key Event'''
-        #print("DEBUG: in backspace() and self.get_input_chars() = " + str(self.get_input_chars()))
+        '''处理 backspace 按键事件'''
         if self.get_input_chars():
             self.pop_input()
             return True
@@ -1003,7 +965,7 @@ class Editor(object):
             return False
     
     def delete(self):
-        '''Process delete Key Event'''
+        '''处理 delete 按键事件'''
         if self.get_input_chars():
             return True
         elif self.get_preedit_strings():
@@ -1013,20 +975,19 @@ class Editor(object):
             return False
     
     def number(self, index):
-        '''Select the candidates in Lookup Table index should start from 0'''
+        '''将备选序号对应的词存入preedit中'''
         cursor_pos = self._ibus_lookup_table.get_cursor_pos()
         cursor_page = self._ibus_lookup_table.get_cursor_in_page()
         current_page_start = cursor_pos - cursor_page
         real_index = current_page_start + index
         if real_index >= len(self._candidates):
             return False
-        #self._ibus_lookup_table.set_cursor_pos_in_current_page(index)
         self._ibus_lookup_table.set_cursor_pos(real_index)
         self.commit_to_preedit()
         return True
 
     def cursor_down(self):
-        '''Process Arrow Down Key Event Move Lookup Table cursor down'''
+        '''处理方向键事件, 在LookupTable中后移焦点'''
         res = self._ibus_lookup_table.cursor_down()
         self.update_candidates()
         if not res and self._candidates:
@@ -1034,7 +995,7 @@ class Editor(object):
         return res
     
     def cursor_up(self):
-        '''Process Arrow Up Key Event Move Lookup Table cursor up'''
+        '''处理方向键事件, 在LookupTable中前移焦点'''
         res = self._ibus_lookup_table.cursor_up()
         self.update_candidates()
         if not res and self._candidates:
@@ -1042,7 +1003,7 @@ class Editor(object):
         return res
     
     def page_down(self):
-        '''Process Page Down Key Event Move Lookup Table page down'''
+        '''处理方向键事件, 在LookupTable中向后翻页'''
         res = self._ibus_lookup_table.page_down()
         self.update_candidates()
         if not res and self._candidates:
@@ -1050,7 +1011,7 @@ class Editor(object):
         return res
     
     def page_up(self):
-        '''Process Page Up Key Event Move Lookup Table page up'''
+        '''处理方向键事件, 在LookupTable中向前翻页'''
         res = self._ibus_lookup_table.page_up()
         self.update_candidates()
         if not res and self._candidates:
@@ -1060,7 +1021,7 @@ class Editor(object):
     # Ctrl,Alt事件相关函数 ====================================================================================
 
     def control_backspace(self):
-        '''Process control+backspace Key Event'''
+        '''处理 Ctrl+Backspace 按键事件'''
         if self.get_input_chars():
             self.over_input()
             return True
@@ -1071,7 +1032,7 @@ class Editor(object):
             return False
 
     def control_delete(self):
-        '''Process control+delete Key Event'''
+        '''处理 Ctrl+Delete 按键事件'''
         if self.get_input_chars():
             return True
         elif self.get_preedit_strings():
@@ -1115,7 +1076,14 @@ class Editor(object):
 
     def alt_number(self, index):
         '''从用户的数据库索引中删除查找表中的候选项应从0开始'''
-        pos = self._ibus_lookup_table.get_current_page_start() + index
+        cursor_pos = self._ibus_lookup_table.get_cursor_pos()
+        cursor_page = self._ibus_lookup_table.get_cursor_in_page()
+        current_page_start = cursor_pos - cursor_page
+        real_index = current_page_start + index
+        if index < 0:
+            pos = current_page_start
+        else:
+            pos = current_page_start + index
         if len(self._candidates) > pos:
             tCandidateTuple = self._candidates[pos]
             if tCandidateTuple[wbjj.candidx_freq] < 0:
@@ -1391,7 +1359,6 @@ class TabEngine(IBus.Engine):
             super().hide_lookup_table()
             return
         print("DEBUG: in _update_lookup_table() and _editor._candidates = " + str(self._editor._candidates))
-        #self.update_lookup_table(self._editor.get_lookup_table(), True)
         super().update_lookup_table(self._editor.get_lookup_table(), True)
 
     def _update_ui(self):
@@ -1870,34 +1837,40 @@ class TabEngine(IBus.Engine):
                 else:
                     self._editor.clear()
                 return res
-        
+            
+            # Ctrl+←, 什么作用?
             elif key.code in (IBus.Left, IBus.KP_Left) and key.mask & IBus.ModifierType.CONTROL_MASK:
                 res = self._editor.control_arrow_left()
                 self._update_ui()
                 return res
 
+            # Ctrl+→, 什么作用?
             elif key.code in (IBus.Right, IBus.KP_Right) and key.mask & IBus.ModifierType.CONTROL_MASK:
                 res = self._editor.control_arrow_right()
                 self._update_ui()
                 return res
 
+            # Ctrl+Backspace, 什么作用?
             elif key.code == IBus.BackSpace and key.mask & IBus.ModifierType.CONTROL_MASK:
                 res = self._editor.control_backspace()
                 self._update_ui()
                 return res
-        
+            
+            # Ctrl+Delete, 什么作用?
             elif key.code == IBus.Delete  and key.mask & IBus.ModifierType.CONTROL_MASK:
                 res = self._editor.control_delete()
                 self._update_ui()
                 return res
         
-            elif key.code >= IBUS_1 and key.code <= IBUS_9 and self._editor._candidates and key.mask & IBus.ModifierType.CONTROL_MASK:
-                res = self._editor.number(key.code - IBUS_1)
-                self._update_ui()
-                return res
+            # Ctrl+数字键且有备选项, 与数字键选择备选功能相同,可用于无法使用数字备选的情况,或用于未启用数字备选时
+            elif key.code >= IBUS_0 and key.code <= IBUS_9 and self._editor._candidates and key.mask & IBus.ModifierType.CONTROL_MASK:
+                if key.code == IBUS_0:
+                    return self._select_number(9)
+                else:
+                    return self._select_number(key.code - IBUS_1)
 
         # Alt键盘事件(不带Ctrl键,可组合Shift)
-        elif key.mask & IBus.ModifierType.CONTROL_MASK and not key.mask & IBus.ModifierType.MOD1_MASK:
+        elif key.mask & IBus.ModifierType.MOD1_MASK and not key.mask & IBus.ModifierType.CONTROL_MASK:
             # Alt+数字(删词快捷键)
             if key.code >= IBUS_1 and key.code <= IBUS_9 and self._editor._candidates and key.mask & IBus.ModifierType.MOD1_MASK:
                 res = self._editor.alt_number(key.code - IBUS_1)
@@ -1909,7 +1882,7 @@ class TabEngine(IBus.Engine):
             pass
 
     def _english_mode_process_key_event(self, key):
-        '''英文模式键盘事件处理过程 English Mode Process Key Event'''
+        '''英文模式键盘事件处理过程'''
         if key.mask & IBus.ModifierType.RELEASE_MASK:
             return True
         if key.code >= 128:
@@ -1967,17 +1940,4 @@ class TabEngine(IBus.Engine):
     def do_disable(self):
         self.reset()
         self._on = False
-
-#    # for further implementation :)
-#    @classmethod
-#    def CONFIG_VALUE_CHANGED(cls, bus, section, name, value):
-#        config = bus.get_config()
-#        if section != wbjj.section:
-#            return
-#    
-#    @classmethod
-#    def CONFIG_RELOADED(cls, bus):
-#        config = bus.get_config()
-#        if section != wbjj.section:
-#            return
 
