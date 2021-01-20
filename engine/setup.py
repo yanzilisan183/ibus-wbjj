@@ -370,8 +370,7 @@ class PreferencesDialog:
     def __init_about(self):
         self.__page_about.show()
         self.__about_version = self.__builder.get_object("NameVersion")
-#        self.__about_version.set_markup(_("<big><b>五笔加加Plus For IBus %s</b></big>" % wbjj.version))
-        self.__about_version.set_markup(u"<big><b>五笔加加Plus For IBus %s</b></big>" % wbjj.version)
+        self.__about_version.set_markup(u"<big><b>五笔加加Plus For IBus<br>%s</b></big>" % wbjj.version + '.' + wbjj.date)
         self.__about_image = self.__builder.get_object("imageAbout")
         self.__about_image.set_from_file(wbjj.icon)
 

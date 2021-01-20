@@ -34,8 +34,7 @@ import tabdict
 import wbjj
 
 _  = lambda a: IBus.Text.new_from_string(a)
-N_ = lambda a: a
-
+regLikeNum = r'^(\-|\-?[0-9]+[0-9\.]*|[0-9]{4}[0-9\.\-\/]*)$'   # 中文数字/日期输入过程,如(12., -, -1., 2020/, 2021-等不完整但尚符合中文数字日期转换的)
 
 def ascii_ispunct(character):
     return bool(character in '''!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~''')
@@ -271,7 +270,8 @@ class Editor(object):
             return True
         if self._cursor[1]:
             self.split_phrase()
-        is_numeric = self._cfg._stChineseDigital and (''.join(self._chars[0]).replace('.','').replace('-','').replace('/','').isdigit() or len(self._chars[0]) < 1) and char in wbjj.numValidChar
+        # is_numeric = self._cfg._stChineseDigital and (''.join(self._chars[0]).replace('.','').replace('-','').replace('/','').isdigit() or ''.join(self._chars[0]) == '-' or (len(self._chars[0]) < 1) and char in wbjj.numValidChar)
+        is_numeric = self._cfg._stChineseDigital and re.match(regLikeNum, ''.join(self._chars[0]) + char)
         if (not is_numeric) and (len(self._chars[0]) >= wbjj.wbMaxLength and not self._py_mode and not self._cfg._stFullLetter) or (len(self._chars[0]) == wbjj.pyMaxLength and self._py_mode):
             # 达到最大编码长度,自动输出到预编辑区(条件:不是数字,不是全角状态,不是拼音)
             self.auto_commit_to_preedit()
@@ -280,7 +280,8 @@ class Editor(object):
         elif self._chars[1]:
             # 之前输入包含无效字符,后续字符继续追加到无效字符self._chars[1]中
             self._chars[1].append(char)
-        elif (not self._py_mode and (char in wbjj.wbValidChar or char == u"z")) or (self._py_mode and (char in wbjj.pyValidChar)) or (is_numeric and char in wbjj.numValidChar):
+        #elif (not self._py_mode and (char in wbjj.wbValidChar or char == u"z")) or (self._py_mode and (char in wbjj.pyValidChar)) or (is_numeric and char in wbjj.numValidChar):
+        elif (not self._py_mode and (char in wbjj.wbValidChar or char == u"z")) or (self._py_mode and (char in wbjj.pyValidChar)) or is_numeric:
             # 五笔编码中出现z 或 拼音 或 self._chars[0]和当前字符都是数字
             self._query_code_str += char
             self._chars[0].append(char)
@@ -540,15 +541,12 @@ class Editor(object):
         if self._query_code_str:
             self._chars[2] = self._chars[0][:]
             if len(self._chars[0]) < 1:
-                #self._ibus_lookup_table.clean()
-                #self._ibus_lookup_table.show_cursor(False)
                 self._candidates = []
                 return True
             # 在这里,我们需要考虑三种情况,中文数字,五笔和拼音
             st = ''.join(self._chars[0])
             regDate = r'^((((1[6-9]|[2-9]\d)\d{2})[\.\-\/](0?[13578]|1[02])[\.\-\/](0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})[\.\-\/](0?[13456789]|1[012])[\.\-\/](0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})[\.\-\/]0?2[\.\-\/](0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))[\.\-\/]0?2[\.\-\/]29))$'
-            regNum = r'^\-?[0-9]+(\.[0-9]+)?$'
-            regPart = r'^[0-9\.\-\/]*$'
+            regNum = r'^\-?[0-9]+(\.[0-9]+)?$'     # 取消负数支持 r'^\-?[0-9]+(\.[0-9]+)?$'
             # 中文日期优先
             if self._cfg._stChineseDigital and re.match(regDate, st):
                 d1 = u'〇一二三四五六七八九'
@@ -578,8 +576,6 @@ class Editor(object):
                 # ２０２０．３．１５
                 sfs = st.replace('.','．').replace('-','－').replace('/','／')
                 fdate = ''.join(list(map(lambda x: x if not str(x).isdigit() else n1[int(x):int(x)+1], sfs[:])))
-                #self._ibus_lookup_table.clean()
-                #self._ibus_lookup_table.show_cursor(False)
                 self._candidates = []
                 self._candidates.append(("", chdate, 3, "", 0, 0))
                 self._candidates.append(("", cndate, 3, "", 0, 0))
@@ -596,8 +592,13 @@ class Editor(object):
                 n1 = u'０１２３４５６７８９．'
                 unt = [[u'仟佰拾',u'万万亿'],[u'仟佰拾',u'万亿'],[u'仟佰拾',u'亿'],[u'仟佰拾',u'万'],[u'仟佰拾',u'元'],[u'角分厘',u'毫']]
                 num = ['0000','0000','0000','0000','0000','0000']
-                tnm = ('000000000000000000000000'+''.join(self._chars[0])+'.0000').split('.', 1)
-                negative = True if tnm[0:1] == '-' else False
+                if self._chars[0][0] == '-':
+                    negative = True
+                    tnm_abs = ''.join(self._chars[0][1:])
+                else:
+                    negative = False
+                    tnm_abs = ''.join(self._chars[0])
+                tnm = ('000000000000000000000000' + tnm_abs + '.0000').split('.', 1)
                 tnm[1] = tnm[1].replace('.','')  # 过滤多余小数点
                 num[5] = tnm[1][:4]
                 num[4] = tnm[0][-4:]
@@ -630,14 +631,14 @@ class Editor(object):
                     umoney = umoney[:-1]
                 cnumber = ''.join(map(lambda x: p2[p1.find(x)], umoney)).replace(u'～', '')
                 if cnumber[-1] == u'点':
-                    cnumber = cnumber[:-1]
-                fnumber = ''.join(map(lambda x: n1[n0.find(x)], self._chars[0]))
+                    cnumber = cnumber[:-1]      # 以"点"结尾去掉点
+                if cnumber[0:2] == u'一十':
+                    cnumber = cnumber[1:]       # 以"一十几"开头变成"十几"
+                fnumber = ''.join(map(lambda x: n1[n0.find(x)], tnm_abs[:]))
                 if negative:
                     fnumber = '－' + fnumber
                     cnumber = u'负' + cnumber
                     umoney = u'负' + umoney
-                #self._ibus_lookup_table.clean()
-                #self._ibus_lookup_table.show_cursor(False)
                 self._candidates = []
                 self._candidates.append(("", fnumber, 3, "", 0, 0))
                 self._candidates.append(("", cnumber, 3, "", 0, 0))
@@ -646,7 +647,7 @@ class Editor(object):
                     self.append_candidate_to_lookup_table_special(_CandidateTuple)
                 return True
             # 中文数字/日期输入过程
-            elif self._cfg._stChineseDigital and re.match(regPart, st):
+            elif self._cfg._stChineseDigital and re.match(regLikeNum, st):
                 self._candidates = []
                 self.append_candidate_to_lookup_table_special(None)
                 return True
@@ -687,9 +688,6 @@ class Editor(object):
                             _CandidateList[wbjj.candidx_code] = _CandidateList[wbjj.candidx_code] + u"  拼音:" + u", ".join(_code2ns)
                         # 追加到LookupTable
                         self.append_candidate_to_lookup_table_special(tuple(_CandidateList))
-                    #else:
-                        #self._ibus_lookup_table.clean()
-                        #self._ibus_lookup_table.show_cursor(False)
                     return True
                 else:
                     if self._cfg._stChineseMode == 0:
@@ -725,7 +723,7 @@ class Editor(object):
                             self._chars[0].pop() 
                             self._query_code_str = self._query_code_str[:-1]
                             return True
-                    if self._candidates[1]:
+                    if len(self._candidates) > 1 and self._candidates[1]:
                         self._candidates = self._candidates[1]
                         self._candidates[1] = []
                         last_input = self.pop_input()
@@ -938,8 +936,8 @@ class Editor(object):
     def space(self):
         '''处理 space 按键事件, 返回值: (KeyProcessResult,whethercommit,commitstring)'''
         print("DEBUG: in space() and _chars[1] = " + str(self._chars[1]) + ", _wb_char_list = " + str(self._wb_char_list))
-        if self._chars[1]:
-            # 含无效输入,不提交
+        if self._chars[1] or ''.join(self._chars[0]) == '-':
+            # 含无效输入或仅为-,不提交
             return (False, u'')
         elif self._wb_char_list:
             # 五笔/拼音输入
@@ -951,7 +949,7 @@ class Editor(object):
             self.clear()
             return (True, pstr, istr)
         else:
-            return (False, u'', u'')
+            return (False, u'')
     
     def backspace(self):
         '''处理 backspace 按键事件'''
@@ -1351,7 +1349,6 @@ class TabEngine(IBus.Engine):
 
     def _update_lookup_table(self):
         '''更新LookupTable(备选列表)'''
-        #print("DEBUG: in _update_lookup_table() and self._editor._candidates = " + str(self._editor._candidates))
         if not self._editor._candidates:
             super().hide_lookup_table()
             return
@@ -1377,8 +1374,9 @@ class TabEngine(IBus.Engine):
         '''提交上屏'''
         self._editor.clear()
         self._update_ui()
-        super().commit_text(IBus.Text(string))
-        self._prev_char = string[-1]
+        if len(string) > 0:
+            super().commit_text(IBus.Text(string))
+            self._prev_char = string[-1]
 
     def _convert_to_full_width(self, c):
         '''转换半角字符到全角字符'''
@@ -1545,10 +1543,11 @@ class TabEngine(IBus.Engine):
             # 非造词模式(即正常模式)
             if not self._editor._create_mode:
                 # 正常输入
-                if (_keychar in wbjj.wbValidChar or _keychar == u"z") or (self._editor._py_mode and _keychar in wbjj.pyValidChar)\
-                    or (self._cfg._stChineseDigital and _keychar in wbjj.numValidChar):
-                    # or (self._cfg._stChineseDigital and _keychar in wbjj.numValidChar and (''.join(self._editor._chars[0]).replace('.','').isdigit() or len(self._editor._chars[0]) < 1)):
-                    is_numeric = self._cfg._stChineseDigital and ''.join(self._editor._chars[0]).replace('.','').isdigit()
+                is_numeric = self._cfg._stChineseDigital and re.match(regLikeNum, ''.join(self._editor._chars[0]) + _keychar)
+                if (_keychar in wbjj.wbValidChar or _keychar == u"z") or \
+                   (self._editor._py_mode and _keychar in wbjj.pyValidChar) or \
+                   (is_numeric):
+                   #(self._cfg._stChineseDigital and _keychar in wbjj.numValidChar and (''.join(self._editor._chars[0]).replace('.','').replace('-','').replace('/','').isdigit() or len(self._editor._chars[0]) < 1)):
                     #print("DEBUG: in _table_mode_process_key_event() input char")
                     # 输入字符追加到输入框
                     if 1==1:

@@ -4,7 +4,7 @@
     <name>org.freedesktop.IBus.ibus-wbjj</name>
     <description>五笔加加Plus For IBus</description>
     <exec>/usr/lib/ibus/ibus-wbjj-engine --ibus</exec>
-    <version>0.3.37.20210119</version>
+    <version>0.3.38.20210120</version>
     <author>小三 &lt;yanzilisan183@sina.com&gt;</author>
     <license>LGPL</license>
     <homepage>https://github.com/yanzilisan183/ibus-wbjj</homepage>
