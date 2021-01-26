@@ -1,5 +1,5 @@
-Package: wbjjplus-for-ibus
-Version: 0.3.38.20210120
+Package: ibus-wbjj
+Version: 0.3.39.20210126
 Architecture: all
 Maintainer: LI Yunfei <yanzilisan183@sina.com>
 Installed-Size: 5780

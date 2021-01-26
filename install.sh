@@ -1,6 +1,6 @@
 #!/bin/bash
 # coding=utf-8
-# vim:et sts=4 sw=4
+# vim:et ts=4 sts=4 sw=4
 # LastModifyAt:	08:57 2021-01-15
 # Author:		LI Yunfie<yanzilisan183@sina.com>
 # Discription:	复制相关文件到本机安装目录进行测试

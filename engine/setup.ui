@@ -1414,7 +1414,9 @@
                         <child>
                           <object class="GtkLabel" id="NameVersion">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;五笔加加Plus For IBus %s&lt;/b&gt;&lt;/big&gt;</property>
+                            <property name="wrap">True</property>
+                            <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;五笔加加Plus For IBus&lt;/b&gt;&lt;/big&gt;\nv%s</property>
+                            <property name="justify">center</property>
                             <property name="use_markup">True</property>
                             <property name="selectable">True</property>
                           </object>

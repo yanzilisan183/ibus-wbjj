@@ -298,16 +298,13 @@ class Editor(object):
             _c = self._chars[1].pop()
         elif self._chars[0]:
             _c = self._chars[0].pop()
-            #print("DEBUG: in pop_input() and [1st]self._query_code_str = " + str(self._query_code_str))
             self._query_code_str = self._query_code_str[:-1]
             if (not self._chars[0]) and self._un_char_list:
-                #print("DEBUG: in pop_input() and [1st]self._chars = " + str(self._chars))
                 self._chars[0] = self._un_char_list.pop()
                 self._chars[1] = self._chars[1][:-1]
                 self._query_code_str = ''.join(self._chars[0])
                 self._precommit_list.pop(self._cursor[0] - 1)
                 self._cursor[0] -= 1
-        #print("DEBUG: in pop_input() and [2nd]self._chars = " + str(self._chars))
         self._wb_char_list.pop()
         self.update_candidates()
         return _c
@@ -667,7 +664,6 @@ class Editor(object):
                 # 如果单z引导符,则输出备选最后输入的字词,格式 字 五笔:code 拼音:code2
                 if self._query_code_str == u'z':
                     self._candidates = self._last_candidates
-                    #print("DEBUG: in update_candidates() and self._candidates = " + str(self._candidates))
                     if self._candidates:
                         _CandidateTuple = self._candidates[0]
                         _CandidateList = list(_CandidateTuple)
@@ -714,7 +710,6 @@ class Editor(object):
             for candidate in self._candidates:
                 self.append_candidate_to_lookup_table(candidate)
             return True
-        #print("DEBUG: in update_candidates() and [mid]self._chars = " + str(self._chars))
         if self._chars[0]:
             if not self._chars[1]:
                 if ascii_ispunct(chr(ord(self._chars[0][-1].encode('ascii')))) or self.is_onlyone_candidate():
@@ -740,9 +735,6 @@ class Editor(object):
                     self._chars[1].append(self._chars[0].pop())
                     self._query_code_str = self._query_code_str[:-1]
             self._candidates = []
-        #else:
-        #    self._ibus_lookup_table.clean()
-        #    self._ibus_lookup_table.show_cursor(False)
         return True
 
     def create_update(self, wordlen):
@@ -942,7 +934,6 @@ class Editor(object):
         elif self._wb_char_list:
             # 五笔/拼音输入
             istr = self.get_all_input_strings()
-            #print("DEBUG: in space() and istr = " + str(istr))
             self.commit_to_preedit()
             pstr = self.get_preedit_strings()
             print("DEBUG: in space() and pstr = " + str(pstr))
@@ -1547,8 +1538,6 @@ class TabEngine(IBus.Engine):
                 if (_keychar in wbjj.wbValidChar or _keychar == u"z") or \
                    (self._editor._py_mode and _keychar in wbjj.pyValidChar) or \
                    (is_numeric):
-                   #(self._cfg._stChineseDigital and _keychar in wbjj.numValidChar and (''.join(self._editor._chars[0]).replace('.','').replace('-','').replace('/','').isdigit() or len(self._editor._chars[0]) < 1)):
-                    #print("DEBUG: in _table_mode_process_key_event() input char")
                     # 输入字符追加到输入框
                     if 1==1:
                     #try:
@@ -1882,13 +1871,16 @@ class TabEngine(IBus.Engine):
 
     def _english_mode_process_key_event(self, key):
         '''英文模式键盘事件处理过程'''
-        if key.mask & IBus.ModifierType.RELEASE_MASK:
+        return False
+        #if key.mask & IBus.ModifierType.RELEASE_MASK:
+        if key.mask & IBus.ModifyerType.RELEASE_MASK and key.code < 128:
             return True
         if key.code >= 128:
             return False
         if key.mask & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
             return False
-        return False
+        #return False
+        return True
     
     def do_page_up(self):
         '''LookupTable翻页按钮(前一页)事件响应过程[事件接口]'''
