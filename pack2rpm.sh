@@ -1,7 +1,7 @@
 #!/bin/bash
 # coding=utf-8
 # vim:et ts=4 sts=4 sw=4
-# LastModifyAt:	15:00 2021-01-22
+# LastModifyAt:	10:19 2021-02-03
 # Author:	LI Yunfie<yanzilisan183@sina.com>
 # Description:	deb格式打包
 
@@ -120,8 +120,8 @@ mkdir -p    $tmpdir/usr/share/ibus/component
 chmod 755   $tmpdir/usr/share/ibus/component
 cp ./DEBIAN/ibus-wbjj.xml $tmpdir/usr/share/ibus/component
 chmod 644   $tmpdir/usr/share/ibus/component/ibus-wbjj.xml
-sed -i "s/ --debug//" $tmpdir/usr/share/ibus/component/ibus-wbjj.xml        # 关闭调试参数
-sed -i "s/lib\/ibus/libexec/" $tmpdir/usr/share/ibus/component/ibus-wbjj.xml
+sed -i "s/ --debug//" $tmpdir/usr/share/ibus/component/ibus-wbjj.xml                            # 关闭调试参数
+sed -i "s/lib\/ibus/libexec/" $tmpdir/usr/share/ibus/component/ibus-wbjj.xml                    # 变更路径信息
 
 mkdir -p        $tmpdir/usr/share/ibus-wbjj
 chmod 755       $tmpdir/usr/share/ibus-wbjj
@@ -135,6 +135,7 @@ cp -R ./icons/  $tmpdir/usr/share/ibus-wbjj/
 chmod 644       $tmpdir/usr/share/ibus-wbjj/icons/*
 cp -R ./tables/ $tmpdir/usr/share/ibus-wbjj/
 chmod 644       $tmpdir/usr/share/ibus-wbjj/tables/*
+sed -i "s/    print(\"DEBUG:/    # print(\"DEBUG:/" $tmpdir/usr/share/ibus-wbjj/engine/*.py     # 注释调试语句
 
 # 编译py
 echo " * 正在将.py编译为.pyc...."

@@ -22,6 +22,7 @@ import os
 import re
 import sys
 import string
+import time
 from gi import require_version
 require_version('IBus', '1.0')
 from gi.repository import IBus
@@ -606,28 +607,28 @@ class Editor(object):
                 umoney = u''
                 for i in range(0,6):
                     if num[i] == '0000':
-                        if umoney != u'' and (' '+umoney)[-1] != u'零':
+                        if umoney != u'' and umoney[-1] != u'零':
                             umoney += u'零'
                     else:
                         for j in range(0,3):
                             if num[i][j] == '0':
-                                if umoney != u'' and (' '+umoney)[-1] != u'零':
+                                if umoney != u'' and umoney[-1] != u'零':
                                     umoney += u'零'
                             else:
                                 umoney += p1[int(num[i][j])] + unt[i][0][j]
                         if num[i][3] != '0':
                             umoney += p1[int(num[i][3])]
-                        if umoney[-1] == u'零':
+                        if umoney != u'' and umoney[-1] == u'零':
                             umoney = umoney[:-1]
                         umoney += unt[i][1]
-                if umoney[-1] == u'零':
+                if umoney != u'' and umoney[-1] == u'零':
                     umoney = umoney[:-1]
                 if num[5] == '0000':
                     umoney += u'整'
                 elif num[5][-1] == '0':
                     umoney = umoney[:-1]
                 cnumber = ''.join(map(lambda x: p2[p1.find(x)], umoney)).replace(u'～', '')
-                if cnumber[-1] == u'点':
+                if cnumber != '' and cnumber[-1] == u'点':
                     cnumber = cnumber[:-1]      # 以"点"结尾去掉点
                 if cnumber[0:2] == u'一十':
                     cnumber = cnumber[1:]       # 以"一十几"开头变成"十几"
@@ -899,7 +900,7 @@ class Editor(object):
             _word += self._candidates[int(self._ibus_lookup_table.get_cursor_pos())][wbjj.candidx_word]         # 返回备选当前页的第一个字/词
         else:
             _word += u''.join(self.get_input_chars())      # 返回输入的字符串
-        if len(_word) > 0: print("DEBUG: in get_preedit_strings() and _word = " + _word + " and self._precommit_list = " + str(self._precommit_list) + " and self._un_char_list = " + str(self._un_char_list))
+        #if len(_word) > 0: print("DEBUG: in get_preedit_strings() and _word = " + _word + " and self._precommit_list = " + str(self._precommit_list) + " and self._un_char_list = " + str(self._un_char_list))
         return _word
 
     def get_aux_strings(self):
@@ -1101,6 +1102,8 @@ class TabEngine(IBus.Engine):
         # the commit phrases length
         self._len_list = [0]
         self._on = False
+        self._last_key_mask = 0             # 保存最近一次非IBUS_MODIFIER_MASK的状态,用于极短时间内的热键验证(解决chrome无法中英切换方案)
+        self._last_key_mask_timer = 0       # 保存最近一次非IBUS_MODIFIER_MASK的状态产生的时间戳
         self.reset()
 
     def reset(self):
@@ -1397,11 +1400,19 @@ class TabEngine(IBus.Engine):
             return tabdict.unichar_half_to_full(c)
     
     def _match_hotkey(self, key, code, mask):
-        if key.code == code and key.mask == mask:
-            if self._prev_key and key.code == self._prev_key.code and key.mask & IBus.ModifierType.RELEASE_MASK:
-                return True
-            if not key.mask & IBus.ModifierType.RELEASE_MASK:
-                return True
+        if key.code == code:
+            # 设置常量0.4秒, 用于检测Chrome下分别发送CTRL_MASK键和RELEASE_MASK导至无法中英切换的问题
+            if self._last_key_mask_timer + 0.4 < time.time():
+                self._last_key_mask = 0
+            if key.mask == mask or (key.mask + self._last_key_mask) == mask:
+                self._last_key_mask = 0
+                if self._prev_key and key.code == self._prev_key.code and key.mask & IBus.ModifierType.RELEASE_MASK:
+                    return True
+                if not key.mask & IBus.ModifierType.RELEASE_MASK:
+                    return True
+            elif key.mask < 0x5f001fff:
+                self._last_key_mask = key.mask
+                self._last_key_mask_timer = time.time()
         return False
     
     def do_process_key_event(self, keyval, keycode, state):

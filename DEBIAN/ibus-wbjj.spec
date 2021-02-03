@@ -1,7 +1,7 @@
 %define _topdir /var/tmp/wbjj_rpmbuild
 
 Name:    ibus-wbjj
-Version: 0.3.39.20210126
+Version: 0.3.40.20210203
 Release: 1%{?dist}
 Summary: ibus-wbjj rpm package
 Group:   Unspecified

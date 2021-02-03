@@ -1,5 +1,5 @@
 Package: ibus-wbjj
-Version: 0.3.39.20210126
+Version: 0.3.40.20210203
 Architecture: all
 Maintainer: LI Yunfei <yanzilisan183@sina.com>
 Installed-Size: 5780
@@ -9,4 +9,4 @@ Breaks: ibus-table-array30 (<< 1.4.6-Source-2~), ibus-table-cangjie (<< 1.4.6-So
 Section: utils
 Priority: optional
 Homepage: https://github.com/yanzilisan183/ibus-wbjj/
-Description: wbjjplus for ibus package
+Description: ibus-wbjj deb package
