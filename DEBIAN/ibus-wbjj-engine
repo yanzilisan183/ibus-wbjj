@@ -1,11 +1,11 @@
 #!/bin/sh
-# -*- coding: utf-8 -*-
-# vim:et sts=4 sw=4
+# coding=utf-8
+# vim:et st=4 sts=4 sw=4
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
 # Copyright (c) ibus-table 2008-2009 Yu Yuwei <acevery@gmail.com>
-# Copyright (c) 2013-2021 小三 <yanzilisan183@sina.com>
+# Copyright (c) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,20 +22,46 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+u=$(whoami)
 prefix=/usr
-datarootdir=${prefix}/share
-datadir=${datarootdir}
 export IBUS_WBJJ_LOCATION=${prefix}/share/ibus-wbjj
 
 for arg in $@; do
     case $arg in
         --xml | -x)
-            exec /usr/bin/python3 ${prefix}/share/ibus-wbjj/engine/main.py --xml;;
+            exec /usr/bin/python3 ${prefix}/share/ibus-wbjj/engine/main.py --xml
+            ;;
         --help | -h)
-            exec /usr/bin/python3 ${prefix}/share/ibus-wbjj/engine/main.py $@;;
+            exec /usr/bin/python3 ${prefix}/share/ibus-wbjj/engine/main.py $@
+            ;;
+        --install | -i)
+            if [ "$u" = "root" ]; then
+                echo " * 请勿以root身份执行"
+                exit 1
+            fi
+            /usr/bin/dconf read /org/gnome/desktop/input-sources/sources | grep "'ibus-wbjj'" >/dev/null 2>&1
+            if [ $? -eq 1 ]; then
+               input_sources_list=$(/usr/bin/dconf read /org/gnome/desktop/input-sources/sources | sed s/]$/,\ \(\'ibus\',\ \'ibus-wbjj\'\)]/ | sed s/\\[,\s*/\\[/)
+               /usr/bin/dconf write /org/gnome/desktop/input-sources/sources "${input_sources_list}"
+            fi
+            exit 0
+            ;;
+        --uninstall | -u | --remove | -r)
+            if [ "$u" = "root" ]; then
+                echo " * 请勿以root身份执行"
+                exit 1
+            fi
+            /usr/bin/pkill -2 -f /ibus-wbjj/engine/main.py >/dev/null 2>&1
+            input_sources_list=$(/usr/bin/dconf read /org/gnome/desktop/input-sources/sources | sed s/,\ *\(\'ibus\',\ *\'ibus-wbjj\'\)]/]/g | sed s/\\[\(\'ibus\',\ *\'ibus-wbjj\'\),\ */\\[/g | sed s/,\ *\(\'ibus\',\ *\'ibus-wbjj\'\),\ */,\ /g)
+            /usr/bin/dconf write /org/gnome/desktop/input-sources/sources "${input_sources_list}"
+            input_mru_sources_list=$(/usr/bin/dconf read /org/gnome/desktop/input-sources/mru-sources | sed s/,\ *\(\'ibus\',\ *\'ibus-wbjj\'\)]/]/g | sed s/\\[\(\'ibus\',\ *\'ibus-wbjj\'\),\ */\\[/g | sed s/,\ *\(\'ibus\',\ *\'ibus-wbjj\'\),\ */,\ /g)
+            /usr/bin/dconf write /org/gnome/desktop/input-sources/mru-sources "${input_mru_sources_list}"
+            exit 0
+            ;;
         *)
             exec /usr/bin/python3 ${prefix}/share/ibus-wbjj/engine/main.py $@
             exit 0
+            ;;
     esac
 done
 

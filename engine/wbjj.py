@@ -1,9 +1,9 @@
 # coding=utf-8
-# vim:et sts=4 sw=4
+# vim:et st=4 sts=4 sw=4
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
-# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@gmail.com>
+# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU Lesser General Public License as published by the Free Software Foundation;
@@ -24,8 +24,8 @@ from gi.repository import IBus
 
 
 sysname       = "ibus-wbjj"
-version       = "0.3.40"
-date          = "20210203"
+version       = "0.3.41"
+date          = "20210220"
 requestpath   = "org.freedesktop.IBus.ibus-wbjj"
 section       = 'engine/wbjj'
 
@@ -35,7 +35,8 @@ license       = "LGPL"
 symbol        = u"五"
 author        = u"LI Yunfei <yanzilisan183@sina.com>"
 homepage      = u"https://github.com/yanzilisan183/ibus-wbjj/"
-description   = u'IBus环境下的五笔输入法\n基于ibus-table和极点五笔86修改\n\n感谢:\n  　ibus-table 作者: Wozy <wozy.in@gmail.com>\n  　五笔加加Plus(Windows版)作者: Easycode <easycode@freemail.sx.cn>\n  　五笔加加之父: 北京六合源软件技术有限公司\n\n我是小三,Ubuntu爱好者,python初学者.'
+description   = u'IBus框架下的五笔输入法\n基于ibus-table和极点五笔86修改\n\n感谢:\n  　ibus-table 作者: Wozy <wozy.in@gmail.com>\n  　五笔加加Plus(Windows版)作者: Easycode <easycode@freemail.sx.cn>\n  　五笔加加之父: 北京六合源软件技术有限公司\n\n我是小三,Ubuntu爱好者,python初学者.'
+description_short = u'IBus框架下的五笔输入法,基于ibus-table和极点五笔86修改'
 
 path          = os.path.expanduser('/usr/share/ibus-wbjj/')
 user          = os.path.expanduser('~/.local/share/ibus-wbjj/')

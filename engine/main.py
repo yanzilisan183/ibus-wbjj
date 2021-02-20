@@ -1,9 +1,9 @@
 # coding=utf-8
-# vim:et sts=4 sw=4
+# vim:et st=4 sts=4 sw=4
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
-# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@gmail.com>
+# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU Lesser General Public License as published by the Free Software Foundation;
@@ -64,7 +64,7 @@ class IMApp:
         else:
             self.__component = IBus.Component(
                 name=wbjj.requestpath,
-                description=wbjj.description,
+                description=wbjj.description_short,
                 version=wbjj.version,
                 license=wbjj.license,
                 author=wbjj.author,
@@ -74,7 +74,7 @@ class IMApp:
             engine = IBus.EngineDesc(
                 name=wbjj.name(),
                 longname=wbjj.longname(),
-                description=wbjj.description,
+                description=wbjj.description_short,
                 language=wbjj.language,
                 license=wbjj.license,
                 author=wbjj.author,
@@ -153,7 +153,7 @@ def main():
         _layout.text = wbjj.layout
         # 描述节点
         _desc = SubElement(_engine, 'description')
-        _desc.text = wbjj.description.replace('\n','&#10;')
+        _desc.text = wbjj.description_short
         # 配置节点
         _setup = SubElement(_engine, 'setup')
         _setup.text = wbjj.setup

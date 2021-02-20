@@ -1,5 +1,5 @@
 # coding=utf-8
-# vim:et sts=4 sw=4
+# vim:et st=4 sts=4 sw=4
 # ibus-wbjj - 五笔加加Plus for IBus
 #
 # Copyright (c) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
@@ -64,7 +64,7 @@ class EngineFactory(IBus.Factory):
             #return engine.get_dbus_object()
             return engine
         except:
-            print("fail to create engine %s" % engine_name)
+            print("WARNING: fail to create engine %s" % engine_name)
             if wbjj.options.debug:
                 raise
             else:

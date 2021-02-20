@@ -1,9 +1,9 @@
 # coding=utf-8
-# vim:et sts=4 sw=4
+# vim:et st=4 sts=4 sw=4
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
-# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@gmail.com>
+# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU Lesser General Public License as published by the Free Software Foundation;
@@ -534,7 +534,7 @@ class Editor(object):
         try:
             self._ibus_lookup_table.show_cursor(False)
         except:
-            print("DEBUG: self._ibus_lookup_table.show_cursor(False) Error.")
+            print("WARNING: self._ibus_lookup_table.show_cursor(False) Error.")
         self._ibus_lookup_table.set_cursor_visible(True)
         if self._query_code_str:
             self._chars[2] = self._chars[0][:]

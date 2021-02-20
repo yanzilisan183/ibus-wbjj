@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/usr/bin/pkill -2 -f /ibus-wbjj/engine/main.py >/dev/null 2>&1
+exit 0

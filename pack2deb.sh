@@ -1,8 +1,8 @@
 #!/bin/bash
 # coding=utf-8
 # vim:et ts=4 sts=4 sw=4
-# LastModifyAt:	10:19 2021-02-03
-# Author:	LI Yunfie<yanzilisan183@sina.com>
+# LastModifyAt:	22:30 2021-02-19
+# Author:   	LI Yunfie <yanzilisan183@sina.com>
 # Description:	deb格式打包
 
 u=`whoami`
@@ -61,7 +61,7 @@ if [ "$str_o" != "$str_n" ]; then
 	sed -i "s/^date\s\+=\s\+\"[0-9]\+\"$/date          = \"${var_date}\"/" ${vfile}
 fi
 # 更新版权年份
-crl_file_str="./DEBIAN/ibus-wbjj-engine ./DEBIAN/ibus-wbjj-setup ./engine/factory.py ./engine/main.py ./engine/setup.py ./engine/setup.ui ./engine/tabdict.py ./engine/table.py ./engine/tabsqlitedb.py ./engine/wbjj.py"
+crl_file_str="./DEBIAN/ibus-wbjj-engine ./DEBIAN/ibus-wbjj-setup ./DEBIAN/ibus-wbjj.rtupdate ./engine/factory.py ./engine/main.py ./engine/setup.py ./engine/setup.ui ./engine/tabdict.py ./engine/table.py ./engine/tabsqlitedb.py ./engine/wbjj.py"
 crl_file_arr=($crl_file_str)
 for onefile in ${crl_file_arr[@]}
 do
@@ -134,8 +134,13 @@ chmod 755   $tmpdir/usr/share/python3/runtime.d/ibus-wbjj.rtupdate
 
 mkdir -p    $tmpdir/DEBIAN
 chmod 755   $tmpdir/DEBIAN
-cp ./DEBIAN/control $tmpdir/DEBIAN/
+cp ./DEBIAN/control  $tmpdir/DEBIAN/
 chmod 644   $tmpdir/DEBIAN/control
+cp ./DEBIAN/prerm    $tmpdir/DEBIAN/
+chmod 755   $tmpdir/DEBIAN/prerm
+cp ./DEBIAN/postinst $tmpdir/DEBIAN/
+chmod 755   $tmpdir/DEBIAN/postinst
+
 
 # 统计解包大小并写入 DEBIAN/control 的 Installed-Size: 
 echo " * 正在写 DEBIAN/control 的 Installed-Size ...."

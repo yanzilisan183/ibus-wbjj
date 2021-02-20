@@ -1,8 +1,8 @@
 #!/bin/bash
 # coding=utf-8
 # vim:et ts=4 sts=4 sw=4
-# LastModifyAt:	08:57 2021-01-15
-# Author:		LI Yunfie<yanzilisan183@sina.com>
+# LastModifyAt:	20:00 2021-02-19
+# Author:       LI Yunfie <yanzilisan183@sina.com>
 # Discription:	复制相关文件到本机安装目录进行测试
 
 u=`whoami`
@@ -64,7 +64,7 @@ if [ "$str_o" != "$str_n" ]; then
 fi
 
 # 更新版权年份
-crl_file_str="./DEBIAN/ibus-wbjj-engine ./DEBIAN/ibus-wbjj-setup ./engine/factory.py ./engine/main.py ./engine/setup.py ./engine/setup.ui ./engine/tabdict.py ./engine/table.py ./engine/tabsqlitedb.py ./engine/wbjj.py"
+crl_file_str="./DEBIAN/ibus-wbjj-engine ./DEBIAN/ibus-wbjj-setup ./DEBIAN/ibus-wbjj.rtupdate ./engine/factory.py ./engine/main.py ./engine/setup.py ./engine/setup.ui ./engine/tabdict.py ./engine/table.py ./engine/tabsqlitedb.py ./engine/wbjj.py"
 crl_file_arr=($crl_file_str)
 for onefile in ${crl_file_arr[@]}
 do

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+/usr/bin/ibus write-cache >/dev/null 2>&1
+echo " 请通过“GNOME设置->区域与语言”添加ibus-wbjj输入法,或以非root执行:"
+echo " /usr/lib/ibus/ibus-wbjj-engine --install"
+

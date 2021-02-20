@@ -1,9 +1,9 @@
 # coding=utf-8
-# vim:et sts=4 sw=4
+# vim:et st=4 sts=4 sw=4
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
-# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@gmail.com>
+# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU Lesser General Public License as published by the Free Software Foundation;
@@ -320,18 +320,18 @@ class TabSqliteDb:
         try:
             sqlstr = 'SELECT * FROM %(database)s.%(table)s WHERE code = ? AND word = ?;'
             RecordTupleList = self.db.execute(sqlstr % {'database':database, 'table':table}, [inRecordTuple[wbjj.idx_code],inRecordTuple[wbjj.idx_word]]).fetchall()
-            #print("DEBUG: add_phrase() and RecordTupleList = " + str(RecordTupleList))
+            # print("DEBUG: add_phrase() and RecordTupleList = " + str(RecordTupleList))
             if len(RecordTupleList) > 0:
                 if inRecordTuple[wbjj.idx_ureq] > RecordTupleList[0][wbjj.idx_ureq] and inRecordTuple[wbjj.idx_ureq] > 0:
                     sqlstr = 'UPDATE %(database)s.%(table)s SET user_freq = ? WHERE id = ?;'
-                    #print("DEBUG: add_phrase() to <" + database + "> and [update]sqlstr = " + sqlstr % {'database':database, 'table':table} + ", parameter = " + str([inRecordTuple[wbjj.idx_ureq],RecordTupleList[0][wbjj.idx_id]]))
+                    # print("DEBUG: add_phrase() to <" + database + "> and [update]sqlstr = " + sqlstr % {'database':database, 'table':table} + ", parameter = " + str([inRecordTuple[wbjj.idx_ureq],RecordTupleList[0][wbjj.idx_id]]))
                     self.db.execute(sqlstr % {'database':database, 'table':table}, [inRecordTuple[wbjj.idx_ureq],RecordTupleList[0][wbjj.idx_id]])
                 else:
                     # print("DEBUG: add_phrase() and return")
                     return
             else:
                 sqlstr = 'INSERT INTO %(database)s.%(table)s (' + ', '.join(wbjj.dbfields) + ') VALUES (' + ', '.join(['?']*len(wbjj.dbfields)) + ');'
-                #print("DEBUG: add_phrase() to <" + database + "> and [insert]sqlstr = " + sqlstr % {'database':database, 'table':table} + ", parameter = " + str([None] + list(inRecordTuple[1:])))
+                # print("DEBUG: add_phrase() to <" + database + "> and [insert]sqlstr = " + sqlstr % {'database':database, 'table':table} + ", parameter = " + str([None] + list(inRecordTuple[1:])))
                 self.db.execute(sqlstr % {'database':database, 'table':table}, [None] + list(inRecordTuple[1:]))
             if commit:
                 self.db.commit()
