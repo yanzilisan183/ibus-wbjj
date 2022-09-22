@@ -1,7 +1,7 @@
 %define _topdir /var/tmp/wbjj_rpmbuild
 
 Name:    ibus-wbjj
-Version: 0.3.40.20210203
+Version: 0.3.42.20220922
 Release: 1%{?dist}
 Summary: ibus-wbjj rpm package
 Group:   Unspecified
@@ -12,29 +12,28 @@ BuildRoot: %_topdir/BUILDROOT
 Prefix:  /usr/share/ibus-wbjj
 #BuildRequires: gcc,make
 Requires: ibus >= 1.5.0, python3 >= 3.6.5
- 
+
 # 软件的描述
 %description
-wbjjplus for ibus
- 
+基于IBus的五笔输入法。
 
+# Build前执行的脚本（为什么是install?）
 %install
-#rm -rf %{buildroot}
-#make install DESTDIR=%{buildroot}
- 
+mv %{_topdir}/FILES/* %{buildroot}/
+
 # 安装前执行的脚本，语法和shell脚本的语法相同
 %pre
 
 # 安装后执行的脚本
 %post
- 
+
 # 卸载前执行的脚本，如停止进程
 %preun
     MSG=`ps -aux | grep "/ibus-wbjj/engine/main.py" | grep -v "grep"`
     if [ -z "$MSG" ];then
         pkill -2 -f /ibus-wbjj/engine/main.py >/dev/null 2>&1
     fi
- 
+
 # 卸载完成后执行的脚本
 %postun
     rm -rf %{prefix}
@@ -51,7 +50,7 @@ wbjjplus for ibus
 %clean
 rm -rf %{buildroot}
  
-#指定要包含的文件
+#指定要包含的文件,相对于BuildRoot
 %files
 %defattr(-,root,root,0755)
 /usr/

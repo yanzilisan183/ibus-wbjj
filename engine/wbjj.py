@@ -3,7 +3,7 @@
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
-# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
+# Copyright (C) 2013-2022 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU Lesser General Public License as published by the Free Software Foundation;
@@ -24,8 +24,8 @@ from gi.repository import IBus
 
 
 sysname       = "ibus-wbjj"
-version       = "0.3.41"
-date          = "20210220"
+version       = "0.3.42"
+date          = "20220922"
 requestpath   = "org.freedesktop.IBus.ibus-wbjj"
 section       = 'engine/wbjj'
 

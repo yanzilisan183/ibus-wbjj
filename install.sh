@@ -1,7 +1,7 @@
 #!/bin/bash
 # coding=utf-8
 # vim:et ts=4 sts=4 sw=4
-# LastModifyAt:	20:00 2021-02-19
+# LastModifyAt:	15:43 2022-09-21
 # Author:       LI Yunfie <yanzilisan183@sina.com>
 # Discription:	复制相关文件到本机安装目录进行测试
 
@@ -31,6 +31,7 @@ newvar="${var_major}.${var_minor}.${var_revision}.${var_date}"
 year=`date "+%Y"`
 
 # 更新版本号
+echo ""
 echo " * 正在更新版本号...."
 vfile=./DEBIAN/control
 str_o=`grep -e "Version: [0-9\.]\+$" ${vfile} | md5sum`

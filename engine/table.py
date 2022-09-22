@@ -3,7 +3,7 @@
 #
 # ibus-wbjj - 五笔加加Plus for IBus
 #
-# Copyright (C) 2013-2021 LI Yunfei <yanzilisan183@sina.com>
+# Copyright (C) 2013-2022 LI Yunfei <yanzilisan183@sina.com>
 #
 # This library is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU Lesser General Public License as published by the Free Software Foundation;
@@ -266,7 +266,7 @@ class Editor(object):
     
     def add_input(self, char):
         '''将按键字母追加到输入栏 add input character'''
-        print("DEBUG: in add_input() ==========================================================")
+        #print("DEBUG: in add_input() ==========================================================")
         if len(self._wb_char_list) == self._cfg._imMaxLength:
             return True
         if self._cursor[1]:
@@ -527,7 +527,7 @@ class Editor(object):
 
     def update_candidates(self):
         '''Update lookuptable'''
-        print("DEBUG: in update_candidates() and self._query_code_str = " + str(self._query_code_str) + " and [fst]self._chars = " + str(self._chars))
+        #print("DEBUG: in update_candidates() and self._query_code_str = " + str(self._query_code_str) + " and [fst]self._chars = " + str(self._chars))
         if (self._chars[0] == self._chars[2] and self._candidates) or self._chars[1]:
             return True
         self._ibus_lookup_table.clean()
@@ -928,7 +928,7 @@ class Editor(object):
 
     def space(self):
         '''处理 space 按键事件, 返回值: (KeyProcessResult,whethercommit,commitstring)'''
-        print("DEBUG: in space() and _chars[1] = " + str(self._chars[1]) + ", _wb_char_list = " + str(self._wb_char_list))
+        #print("DEBUG: in space() and _chars[1] = " + str(self._chars[1]) + ", _wb_char_list = " + str(self._wb_char_list))
         if self._chars[1] or ''.join(self._chars[0]) == '-':
             # 含无效输入或仅为-,不提交
             return (False, u'')
@@ -937,7 +937,7 @@ class Editor(object):
             istr = self.get_all_input_strings()
             self.commit_to_preedit()
             pstr = self.get_preedit_strings()
-            print("DEBUG: in space() and pstr = " + str(pstr))
+            #print("DEBUG: in space() and pstr = " + str(pstr))
             self.clear()
             return (True, pstr, istr)
         else:
@@ -1104,6 +1104,7 @@ class TabEngine(IBus.Engine):
         self._on = False
         self._last_key_mask = 0             # 保存最近一次非IBUS_MODIFIER_MASK的状态,用于极短时间内的热键验证(解决chrome无法中英切换方案)
         self._last_key_mask_timer = 0       # 保存最近一次非IBUS_MODIFIER_MASK的状态产生的时间戳
+        self._switch_other_keycode = 0      # 中英文切换键按下其间组合过的其它键值
         self.reset()
 
     def reset(self):
@@ -1334,7 +1335,7 @@ class TabEngine(IBus.Engine):
             # 提取当前的字符
             _input_chars = self._editor.get_aux_strings()
         if _input_chars:
-            print("DEBUG: in _update_aux() and _input_chars = " + _input_chars)
+            #print("DEBUG: in _update_aux() and _input_chars = " + _input_chars)
             attrs = IBus.AttrList()
             attrs.append(IBus.attr_foreground_new(0x9515b5, 0, len(_input_chars)))
             super().update_auxiliary_text(IBus.Text(_input_chars, attrs), True)
@@ -1349,7 +1350,7 @@ class TabEngine(IBus.Engine):
         if self._editor.is_empty():
             super().hide_lookup_table()
             return
-        print("DEBUG: in _update_lookup_table() and _editor._candidates = " + str(self._editor._candidates))
+        #print("DEBUG: in _update_lookup_table() and _editor._candidates = " + str(self._editor._candidates))
         super().update_lookup_table(self._editor.get_lookup_table(), True)
 
     def _update_ui(self):
@@ -1401,15 +1402,18 @@ class TabEngine(IBus.Engine):
     
     def _match_hotkey(self, key, code, mask):
         if key.code == code:
+            #print("DEBUG: in _match_hotkey() and key.code = " + str(key.code) + " and code = " + str(code))
             # 设置常量0.4秒, 用于检测Chrome下分别发送CTRL_MASK键和RELEASE_MASK导至无法中英切换的问题
             if self._last_key_mask_timer + 0.4 < time.time():
                 self._last_key_mask = 0
             if key.mask == mask or (key.mask + self._last_key_mask) == mask:
+                #print("DEBUG: in _match_hotkey() and key.mask = " + str(key.mask) + " and mask = " + str(mask) + " and key.mask == mask is " + str(key.mask == mask))
                 self._last_key_mask = 0
-                if self._prev_key and key.code == self._prev_key.code and key.mask & IBus.ModifierType.RELEASE_MASK:
-                    return True
-                if not key.mask & IBus.ModifierType.RELEASE_MASK:
-                    return True
+                #if self._prev_key and key.code == self._prev_key.code and key.mask & IBus.ModifierType.RELEASE_MASK:
+                #    return True
+                #if not key.mask & IBus.ModifierType.RELEASE_MASK:
+                #    return True
+                return True
             elif key.mask < 0x5f001fff:
                 self._last_key_mask = key.mask
                 self._last_key_mask_timer = time.time()
@@ -1429,29 +1433,51 @@ class TabEngine(IBus.Engine):
         #        raise
         #        #import traceback
         #        #traceback.print_exc()
-        self._prev_key = key
-        return result
+        if result == False:
+            return False
+        else:
+            self._prev_key = key
+            return result
 
     def _process_key_event(self, key):
         '''键盘事件响应过程[内部过程]'''
+        switch_key_mask = 0
+        #print("DEBUG: in _process_key_event() and key.code = " + str(key.code) + " and key.mask = " + str(key.mask) + " and self._switch_other_keycode = " + str(self._switch_other_keycode))
         # 中/英切换热键 Match mode switch hotkey
         if key.code in self._cfg._hkEnSwitchKey:
-            if key.code in (IBus.Control_L, IBus.Control_R):
-                key_mask = IBus.ModifierType.CONTROL_MASK
-            elif key.code in (IBus.Shift_L, IBus.Shift_R):
-                key_mask = IBus.ModifierType.SHIFT_MASK
-            if self._match_hotkey(key, key.code, key_mask | IBus.ModifierType.RELEASE_MASK):
-                if not self._editor.is_empty():
-                    self.reset()
-                self._change_mode()
-                return True
+            # 释放中/英切换热键时
+            if key.mask & IBus.ModifierType.RELEASE_MASK:
+                #print("DEBUG: in _process_key_event() and key.code = " + str(key.code) + " and self._cfg._hkEnSwitchKey = " +str(self._cfg._hkEnSwitchKey))
+                if key.code in (IBus.Control_L, IBus.Control_R):
+                    switch_key_mask = IBus.ModifierType.CONTROL_MASK;
+                elif key.code in (IBus.Shift_L, IBus.Shift_R):
+                    switch_key_mask = IBus.ModifierType.SHIFT_MASK;
+                if self._match_hotkey(key, key.code, switch_key_mask | IBus.ModifierType.RELEASE_MASK):
+                    #print("DEBUG: in _process_key_event() and switch_key_mask and IBus.ModifierType.RELEASE_MASK and self._switch_other_keycode = " + str(self._switch_other_keycode))
+                    if self._switch_other_keycode == 0:
+                        if not self._editor.is_empty():
+                            self.reset()
+                        self._change_mode()
+                        return True
+                    else:
+                        self._switch_other_keycode = 0
+                        return False
+            # 按下热键且无组合其它功能键时
+            elif key.mask == 0:
+                self._switch_other_keycode = 0
+        # 记录中/英切换热键组合过的键
+        elif ((IBus.Control_L in self._cfg._hkEnSwitchKey or IBus.Control_R in self._cfg._hkEnSwitchKey) and key.mask & IBus.ModifierType.CONTROL_MASK ) or \
+             ((IBus.Shift_L in self._cfg._hkEnSwitchKey or IBus.Shift_R in self._cfg._hkEnSwitchKey) and key.mask & IBus.ModifierType.SHIFT_MASK):
+            #print("DEBUG: in _process_key_event() and key.code = " + str(key.code))
+            self._switch_other_keycode = key.code
+                
         if key.mask & IBus.ModifierType.CONTROL_MASK and key.mask & IBus.ModifierType.MOD1_MASK and key.mask & IBus.ModifierType.SHIFT_MASK and not key.mask & IBus.ModifierType.RELEASE_MASK:
             # 设置
             if self._cfg._hkSetupHotKey and key.code == IBus.F2:
                 self.do_property_activate(u'setup')
                 return True
             # 帮助
-            if self._cfg._hkSetupHotKey and key.code == IBus.F1:
+            elif self._cfg._hkSetupHotKey and key.code == IBus.F1:
                 self.do_property_activate(u'help')
                 return True
             # 自杀键组合(Ctrl+Alt+Shift+BackSpace)
@@ -1459,6 +1485,7 @@ class TabEngine(IBus.Engine):
                 os.system("ibus-daemon -d -x -r")
                 return True
             return False
+            
         if self._mode:
             # 中文输入状态下的键盘事件处理
             return self._table_mode_process_key_event(key)
@@ -1485,7 +1512,7 @@ class TabEngine(IBus.Engine):
         IBUS_8=0x038
         IBUS_9=0x039
 
-        # 处理释放事件(KeyUp事件)
+        # 处理释放事件(KeyUp事件),优先处理部分
         if key.mask & IBus.ModifierType.RELEASE_MASK:
             # Shift处理, 左Shift选第二备选字, 右Shift选第三备选字
             if self._cfg._hkShiftSelection and (self._match_hotkey(key, IBus.Shift_L, IBus.ModifierType.SHIFT_MASK | IBus.ModifierType.RELEASE_MASK) or self._match_hotkey(key, IBus.Shift_R, IBus.ModifierType.SHIFT_MASK | IBus.ModifierType.RELEASE_MASK)) and self._editor._candidates:
@@ -1504,8 +1531,13 @@ class TabEngine(IBus.Engine):
                         self._editor.clear()
                         self.reset()
                     return True
+            elif self._editor.is_empty():
+                return False
+            else:
+                return True
             # 释放失效
-            return True
+            #return True
+            #return False
 
         # 不带Alt或Ctrl键的键盘事件
         if not key.mask & IBus.ModifierType.MOD1_MASK and not key.mask & IBus.ModifierType.CONTROL_MASK:
@@ -1531,6 +1563,8 @@ class TabEngine(IBus.Engine):
                         self.commit_string(cond_letter_translate(_keychar))
                         return True
                 elif key.code > 127 and not self._editor._py_mode:
+                    #print("DEBUG: in _table_mode_process_key_event() and key.code = " + str(key.code) + " and not self._editor._py_mode")
+                    # return False
                     return False
 
                 # 如果首字符是z则进入拼音模式,否则退出拼音模式(切换)
@@ -1541,7 +1575,7 @@ class TabEngine(IBus.Engine):
             elif self._editor._py_mode and self._editor._wb_char_list[0] != u"z":
                 res = self._editor.switch_py_wb()
                 self._refresh_properties()
-
+                
             # 非造词模式(即正常模式)
             if not self._editor._create_mode:
                 # 正常输入
@@ -1884,14 +1918,14 @@ class TabEngine(IBus.Engine):
         '''英文模式键盘事件处理过程'''
         return False
         #if key.mask & IBus.ModifierType.RELEASE_MASK:
-        if key.mask & IBus.ModifyerType.RELEASE_MASK and key.code < 128:
-            return True
-        if key.code >= 128:
-            return False
-        if key.mask & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
-            return False
+        #if key.mask & IBus.ModifyerType.RELEASE_MASK and key.code < 128:
+        #    return True
+        #if key.code >= 128:
+        #    return False
+        #if key.mask & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
+        #    return False
         #return False
-        return True
+        #return True
     
     def do_page_up(self):
         '''LookupTable翻页按钮(前一页)事件响应过程[事件接口]'''

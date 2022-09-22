@@ -1,7 +1,7 @@
 # 五笔加加Plus For IBus (ibus-wbjj)
 IBus环境下的五笔输入法  
 基于ibus-table, ibus-pinyin和极点五笔86修改  
-基本保留了Windows版本五笔加加的一些特性,并针对Linux(主要是ubuntu)做了一些优化和修改.
+保留了Windows版本五笔加加的一些特性,并针对Linux(主要是ubuntu)做了一些优化和修改.
 
 ## 主要特点
 * 中英文切换键默认为左Ctrl键,支持自定义修改;

@@ -49,6 +49,7 @@
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">6</property>
                                 <property name="homogeneous">True</property>
+                                
                                 <child>
                                   <object class="GtkLabel" id="labelInitEnglish">
                                     <property name="visible">True</property>
@@ -304,7 +305,7 @@
                                 <child>
                                   <object class="GtkRadioButton" id="chinese-digital">
                                     <property name="label" translatable="yes">是</property>
-                                    <property name="tooltip_text">侯选数字的全角,中文形式及大写金额&#10;只能用非数字键选择侯选项</property>
+                                    <property name="tooltip_text">侯选数字的全角,中文形式及大写金额&#10;只能用非数字键选择侯选项&#10;中文状态[Ctrl+']切换</property>
                                     <property name="visible">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="draw_indicator">True</property>
@@ -319,7 +320,7 @@
                                 <child>
                                   <object class="GtkRadioButton" id="chinese-digital_False">
                                     <property name="label" translatable="yes">否</property>
-                                    <property name="tooltip_text">输入数字直接上屏</property>
+                                    <property name="tooltip_text">输入数字直接上屏&#10;中文状态[Ctrl+']切换</property>
                                     <property name="visible">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="draw_indicator">True</property>
@@ -1151,6 +1152,7 @@
               </packing>
             </child>
 
+
             <child>
               <object class="GtkAlignment" id="pageDictionary">
                 <property name="visible">True</property>
@@ -1460,7 +1462,7 @@
                           <object class="GtkLabel" id="labelCopyright">
                             <property name="visible">True</property>
                             <property name="justify">center</property>
-                            <property name="label" translatable="yes">&lt;small&gt;Copyright (c) 2013-2021 LI Yunfei&amp;lt;yanzilisan183@sina.com&amp;gt;&lt;/small&gt;</property>
+                            <property name="label" translatable="yes">&lt;small&gt;Copyright (c) 2013-2022 LI Yunfei&amp;lt;yanzilisan183@sina.com&amp;gt;&lt;/small&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
                             <property name="selectable">True</property>
@@ -1502,11 +1504,7 @@
                         <child>
                           <object class="GtkLabel" id="label21">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;small&gt;
-&lt;b&gt;作者:&lt;/b&gt;&#10;LI Yunfei
-
-&lt;b&gt;感谢:&lt;/b&gt;&#10;Wozy, Easycode, 北京六合源软件技术有限公司
-&lt;/small&gt;</property>
+                            <property name="label" translatable="yes">&lt;small&gt;&#10;&lt;b&gt;作者:&lt;/b&gt;&#10;LI Yunfei&#10;&#10;&lt;b&gt;感谢:&lt;/b&gt;&#10;Wozy, Easycode, 北京六合源软件技术有限公司&lt;/small&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="justify">center</property>
                             <property name="selectable">True</property>
@@ -1579,32 +1577,6 @@
       <action-widget response="-4">buttonClose</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkListStore" id="liststoreDoublePinyin">
-    <columns>
-      <!-- column-name schema -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">MSPY</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ZRM</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ABC</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ZGPY</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">PYJJ</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">XHE</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkAdjustment" id="AdjustmentLookupTablePageSize">
     <property name="value">1</property>
     <property name="lower">3</property>
@@ -1615,7 +1587,6 @@
   </object>
   <object class="GtkListStore" id="liststoreLookupTableOrientation">
     <columns>
-      <!-- column-name orientation -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -1632,7 +1603,6 @@
   </object>
   <object class="GtkListStore" id="liststoreChineseMode">
     <columns>
-      <!-- column-name 字符集 -->
       <column type="gchararray"/>
     </columns>
     <data>
@@ -1655,7 +1625,6 @@
   </object>
   <object class="GtkListStore" id="liststoreEnSwitchKey">
     <columns>
-      <!-- column-name 字符集 -->
       <column type="gchararray"/>
     </columns>
     <data>

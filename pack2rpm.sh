@@ -1,7 +1,7 @@
 #!/bin/bash
 # coding=utf-8
 # vim:et ts=4 sts=4 sw=4
-# LastModifyAt:	20:00 2021-02-19
+# LastModifyAt:	13:17 2022-09-22
 # Author:   	LI Yunfie <yanzilisan183@sina.com>
 # Description:	deb格式打包
 
@@ -84,67 +84,68 @@ sed -i "s/<yanzilisan183@sina.com> on .\+$/<yanzilisan183@sina.com> on ${var_dts
 echo " * 正在复制文件和配置文件权限...."
 rpmdir=/var/tmp/wbjj_rpmbuild
 if [ -d "$rpmdir" ]; then
-	rm -rf $tmpdir
+	rm -rf $rpmdir
 fi
-mkdir -pv $rpmdir/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS} > /dev/null
-tmpdir=$rpmdir/BUILDROOT
+mkdir -pv $rpmdir/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS,FILES} > /dev/null
+filedir=$rpmdir/FILES
+buildrootdir=$rpmdir/BUILDROOT
 
-mkdir -p    $tmpdir/usr/libexec
-chmod 755   $tmpdir/usr/libexec
-cp ./DEBIAN/ibus-wbjj-engine $tmpdir/usr/libexec/
-chmod 755   $tmpdir/usr/libexec/ibus-wbjj-engine
-cp ./DEBIAN/ibus-wbjj-setup $tmpdir/usr/libexec/
-chmod 755   $tmpdir/usr/libexec/ibus-wbjj-setup
+mkdir -p    $filedir/usr/libexec
+chmod 755   $filedir/usr/libexec
+cp ./DEBIAN/ibus-wbjj-engine $filedir/usr/libexec/
+chmod 755   $filedir/usr/libexec/ibus-wbjj-engine
+cp ./DEBIAN/ibus-wbjj-setup $filedir/usr/libexec/
+chmod 755   $filedir/usr/libexec/ibus-wbjj-setup
 
-#mkdir -p    $tmpdir/usr/lib64/pkgconfig
-#chmod 755   $tmpdir/usr/lib64/pkgconfig
-#cp ./DEBIAN/ibus-wbjj.pc $tmpdir/usr/lib64/pkgconfig/
-#chmod 644   $tmpdir/usr/lib64/pkgconfig/ibus-wbjj.pc
+#mkdir -p    $filedir/usr/lib64/pkgconfig
+#chmod 755   $filedir/usr/lib64/pkgconfig
+#cp ./DEBIAN/ibus-wbjj.pc $filedir/usr/lib64/pkgconfig/
+#chmod 644   $filedir/usr/lib64/pkgconfig/ibus-wbjj.pc
 
-mkdir -p    $tmpdir/usr/share/applications
-chmod 755   $tmpdir/usr/share/applications
-cp ./DEBIAN/ibus-setup-ibus-wbjj.desktop $tmpdir/usr/share/applications/
-chmod 644   $tmpdir/usr/share/applications/ibus-setup-ibus-wbjj.desktop
+mkdir -p    $filedir/usr/share/applications
+chmod 755   $filedir/usr/share/applications
+cp ./DEBIAN/ibus-setup-ibus-wbjj.desktop $filedir/usr/share/applications/
+chmod 644   $filedir/usr/share/applications/ibus-setup-ibus-wbjj.desktop
 
-mkdir -p    $tmpdir/usr/share/doc/ibus-wbjj
+mkdir -p    $filedir/usr/share/doc/ibus-wbjj
 chmod 755   /usr/share/doc/ibus-wbjj
-cp ./DEBIAN/copyright $tmpdir/usr/share/doc/ibus-wbjj/
-chmod 644	 $tmpdir/usr/share/doc/ibus-wbjj/copyright
+cp ./DEBIAN/copyright $filedir/usr/share/doc/ibus-wbjj/
+chmod 644	 $filedir/usr/share/doc/ibus-wbjj/copyright
 
-mkdir -p    $tmpdir/usr/share/glib-2.0/schemas
-chmod 755   $tmpdir/usr/share/glib-2.0/schemas
-cp ./org.freedesktop.ibus.ibus-wbjj.gschema.xml $tmpdir/usr/share/glib-2.0/schemas
-chmod 644   $tmpdir/usr/share/glib-2.0/schemas/org.freedesktop.ibus.ibus-wbjj.gschema.xml
+mkdir -p    $filedir/usr/share/glib-2.0/schemas
+chmod 755   $filedir/usr/share/glib-2.0/schemas
+cp ./org.freedesktop.ibus.ibus-wbjj.gschema.xml $filedir/usr/share/glib-2.0/schemas
+chmod 644   $filedir/usr/share/glib-2.0/schemas/org.freedesktop.ibus.ibus-wbjj.gschema.xml
 
-mkdir -p    $tmpdir/usr/share/ibus/component
-chmod 755   $tmpdir/usr/share/ibus/component
-cp ./DEBIAN/ibus-wbjj.xml $tmpdir/usr/share/ibus/component
-chmod 644   $tmpdir/usr/share/ibus/component/ibus-wbjj.xml
-sed -i "s/ --debug//" $tmpdir/usr/share/ibus/component/ibus-wbjj.xml                            # 关闭调试参数
-sed -i "s/lib\/ibus/libexec/" $tmpdir/usr/share/ibus/component/ibus-wbjj.xml                    # 变更路径信息
+mkdir -p    $filedir/usr/share/ibus/component
+chmod 755   $filedir/usr/share/ibus/component
+cp ./DEBIAN/ibus-wbjj.xml $filedir/usr/share/ibus/component
+chmod 644   $filedir/usr/share/ibus/component/ibus-wbjj.xml
+sed -i "s/ --debug//" $filedir/usr/share/ibus/component/ibus-wbjj.xml                            # 关闭调试参数
+sed -i "s/lib\/ibus/libexec/" $filedir/usr/share/ibus/component/ibus-wbjj.xml                    # 变更路径信息
 
-mkdir -p        $tmpdir/usr/share/ibus-wbjj
-chmod 755       $tmpdir/usr/share/ibus-wbjj
-cp -R ./data/   $tmpdir/usr/share/ibus-wbjj/
-chmod 644       $tmpdir/usr/share/ibus-wbjj/data/*
-cp -R ./docs/   $tmpdir/usr/share/ibus-wbjj/
-chmod 644       $tmpdir/usr/share/ibus-wbjj/docs/*
-cp -R ./engine/ $tmpdir/usr/share/ibus-wbjj/
-chmod 644       $tmpdir/usr/share/ibus-wbjj/engine/*
-cp -R ./icons/  $tmpdir/usr/share/ibus-wbjj/
-chmod 644       $tmpdir/usr/share/ibus-wbjj/icons/*
-cp -R ./tables/ $tmpdir/usr/share/ibus-wbjj/
-chmod 644       $tmpdir/usr/share/ibus-wbjj/tables/*
-sed -i "s/    print(\"DEBUG:/    # print(\"DEBUG:/" $tmpdir/usr/share/ibus-wbjj/engine/*.py     # 注释调试语句
+mkdir -p        $filedir/usr/share/ibus-wbjj
+chmod 755       $filedir/usr/share/ibus-wbjj
+cp -R ./data/   $filedir/usr/share/ibus-wbjj/
+chmod 644       $filedir/usr/share/ibus-wbjj/data/*
+cp -R ./docs/   $filedir/usr/share/ibus-wbjj/
+chmod 644       $filedir/usr/share/ibus-wbjj/docs/*
+cp -R ./engine/ $filedir/usr/share/ibus-wbjj/
+chmod 644       $filedir/usr/share/ibus-wbjj/engine/*
+cp -R ./icons/  $filedir/usr/share/ibus-wbjj/
+chmod 644       $filedir/usr/share/ibus-wbjj/icons/*
+cp -R ./tables/ $filedir/usr/share/ibus-wbjj/
+chmod 644       $filedir/usr/share/ibus-wbjj/tables/*
+sed -i "s/    print(\"DEBUG:/    # print(\"DEBUG:/" $filedir/usr/share/ibus-wbjj/engine/*.py     # 注释调试语句
 
 # 编译py
 echo " * 正在将.py编译为.pyc...."
-python3 -m compileall $tmpdir/usr/share/ibus-wbjj/engine/ > /dev/null
-chmod 644       $tmpdir/usr/share/ibus-wbjj/engine/__pycache__/*
+python3 -m compileall $filedir/usr/share/ibus-wbjj/engine/ > /dev/null
+chmod 644       $filedir/usr/share/ibus-wbjj/engine/__pycache__/* 2 > /dev/null
 
 # 打包
 echo " * 正在打包rpm...."
-rpmbuild -bb --buildroot=$tmpdir --target=$arc DEBIAN/ibus-wbjj.spec
+rpmbuild -bb --buildroot=$buildrootdir --target=$arc DEBIAN/ibus-wbjj.spec
 
 # 签名
 
