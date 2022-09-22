@@ -46,7 +46,7 @@ import wbjj
 
 class TabSqliteDb:
     '''Phrase database for tables'''
-    def __init__(self, name='wbjjplus3.db', user_db=None, filename=None):
+    def __init__(self, name='wbjj3.db', user_db=None, filename=None):
         # use filename when you are creating db from source
         # use name when you are using db
         self._cfg = None                                    # 由IMEConfig对象写入,此处仅声明

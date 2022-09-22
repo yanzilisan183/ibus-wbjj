@@ -1407,7 +1407,7 @@
                             <property name="can_focus">True</property>
                             <property name="pixel_size">32</property>
                             <property name="icon_name">gtk-about</property>
-                            <property name="file">/usr/share/ibus-wbjj/icons/wbjjplus_1.svg</property>
+                            <property name="file">/usr/share/ibus-wbjj/icons/wbjj_logo_1.svg</property>
                           </object>
                           <packing>
                             <property name="position">0</property>

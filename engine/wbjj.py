@@ -44,9 +44,9 @@ lib           = os.path.expanduser('/usr/lib/ibus/')
 setup         = lib + 'ibus-wbjj-setup'
 
 iconpath      = path + 'icons/'
-iconname      = 'wbjjplus_1.svg'
+iconname      = 'wbjj_logo_1.svg'
 icon          = iconpath + iconname
-trayicon      = iconpath + 'wbjjplus_1.svg'
+trayicon      = iconpath + 'wbjj_logo_1.svg'
 
 docpath       = path + 'docs/'
 enginepath    = path + 'engine/'
@@ -54,11 +54,11 @@ datapath      = path + 'data/'
 help          = docpath + 'help_Tips.htm'
 
 dbpath        = path + 'tables/'
-dbname        = 'wbjjplus3.db'
+dbname        = 'wbjj3.db'
 db            = dbpath + dbname
 
 userdbpath    = user
-userdbname    = 'wbjjplus3-user.db'
+userdbname    = 'wbjj3-user.db'
 userdb        = userdbpath + userdbname
 
 logpath       = os.path.expanduser('~/.cache/ibus-wbjj/')
